@@ -1,6 +1,16 @@
 {
   "name": "xlane",
-  "version": "0.1.0",
+  "version": "0.0.0",
+  "description": "React based progress bar for command-line/terminal applications",
+  "keywords": [
+    "cli",
+    "terminal",
+    "progress",
+    "react"
+  ],
+  "homepage": "https://github.com/leegeunhyeok/xlane#readme",
+  "license": "MIT",
+  "author": "leegeunhyeok <dev.ghlee@gmail.com>",
   "exports": {
     ".": {
       "types": "./types/index.d.ts",
