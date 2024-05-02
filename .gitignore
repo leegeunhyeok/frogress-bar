@@ -13,3 +13,8 @@
 .pnp.*
 
 node_modules
+
+dist
+cjs
+esm
+types

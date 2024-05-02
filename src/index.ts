@@ -1,5 +1,7 @@
 import React from 'react';
 import { render } from 'ink';
-import { WorkingInProgress } from './WorkingInProgress';
+import { WorkingInProgress } from './working-in-progress';
 
-render(React.createElement(WorkingInProgress));
+export function start(): Promise<void> {
+  return render(React.createElement(WorkingInProgress)).waitUntilExit();
+}
