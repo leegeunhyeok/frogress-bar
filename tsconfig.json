@@ -1,0 +1,4 @@
+{
+  "extends": "@vercel/style-guide/typescript/node20",
+  "include": ["src"]
+}
