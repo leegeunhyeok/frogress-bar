@@ -1,4 +1,7 @@
 {
   "extends": "@vercel/style-guide/typescript/node20",
+  "compilerOptions": {
+    "jsx": "react"
+  },
   "include": ["src"]
 }
