@@ -32,6 +32,7 @@
     "cleanup": "rm -rf dist && rm -rf cjs && rm -rf esm && rm -rf types",
     "lint": "eslint .",
     "prepack": "yarn lint && yarn cleanup && yarn build",
+    "release": "release-it",
     "start": "node -r @swc-node/register demo/basic.ts"
   },
   "prettier": "@vercel/style-guide/prettier",
@@ -48,7 +49,16 @@
     "esbuild": "^0.20.2",
     "eslint": "^8.56.0",
     "prettier": "^3.2.5",
+    "release-it": "^17.2.1",
     "typescript": "^5.4.5"
   },
-  "packageManager": "yarn@4.2.0"
+  "packageManager": "yarn@4.2.0",
+  "release-it": {
+    "git": {
+      "commitMessage": "chore: release v${version}"
+    },
+    "github": {
+      "release": true
+    }
+  }
 }
