@@ -4,32 +4,32 @@ import { DEFAULT_ACTIVE_CHAR, DEFAULT_INACTIVE_CHAR } from '../constants';
 import { useMaxWidth } from '../hooks/use-max-width';
 import type { ProgressValue } from '../types';
 
-interface ProgressBarProps {
+export interface ProgressBarProps {
   /**
-   * Progress value (0 to 1)
+   * Progress value (Range: `0` to `1`)
    */
   value: ProgressValue;
   /**
-   * Defaults to '█'
+   * Defaults to `'█'`.
    */
   activeChar?: string;
   /**
-   * Defaults to '░'
+   * Defaults to `'░'`.
    */
   inactiveChar?: string;
   /**
-   * Depend on terminal size
+   * Defaults to `30` (Depend on terminal size).
    */
-  maxWidth?: number;
+  progressBarSize?: number;
 }
 
 export function ProgressBar({
   value,
   activeChar = DEFAULT_ACTIVE_CHAR,
   inactiveChar = DEFAULT_INACTIVE_CHAR,
-  maxWidth = 30,
+  progressBarSize = 30,
 }: ProgressBarProps): React.JSX.Element {
-  const calculatedMaxWidth = useMaxWidth(maxWidth);
+  const calculatedMaxWidth = useMaxWidth(progressBarSize);
 
   const getProgressText = (): string => {
     const activeWidth = Math.floor(calculatedMaxWidth * value);
