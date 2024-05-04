@@ -22,7 +22,7 @@ module.exports = {
   overrides: [
     {
       files: ['src/**/*.ts', 'src/**/*.tsx'],
-      rules: { 'import/no-named-as-default-member': 'off' },
+      rules: { camelcase: 'off', 'import/no-named-as-default-member': 'off' },
     },
   ],
 };

@@ -1,7 +1,6 @@
-export const ANSI_ESCAPE_SEQUENCE = '\x1B';
+export const ESC = '\x1B';
 
 /**
- * @see https://vt100.net/docs/vt510-rm/DECAWM.html
+ * @see https://vt100.net/docs/vt510-rm/DECSEL.html
  */
-export const DECAWM_AUTO_WRAP = `${ANSI_ESCAPE_SEQUENCE}[?7h`;
-export const DECAWM_NO_AUTO_WRAP = `${ANSI_ESCAPE_SEQUENCE}[?7l`;
+export const ERASE_LINE = `${ESC}[2K`;
