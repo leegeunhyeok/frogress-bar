@@ -13,6 +13,7 @@ export function useRefreshRate({ refreshRate, handler }: UseRefreshRate): void {
 
     return () => {
       clearInterval(timer);
+      handler();
     };
   }, [refreshRate, handler]);
 }

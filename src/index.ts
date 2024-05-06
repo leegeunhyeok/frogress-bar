@@ -4,6 +4,7 @@ import { ProgressBarPool } from './progress-bar-pool';
 import { createContainerElement } from './utils/create-container';
 import { createSharedValue } from './utils/create-shared-value';
 import { getDefaultOptions } from './utils/get-default-options';
+import type { ContainerProps } from './components/container';
 import type { XLaneOptions } from './types';
 
 interface XLane {
@@ -17,28 +18,35 @@ export function xLane(options: XLaneOptions): XLane {
   let instance: Instance | null = null;
 
   const mergedOptions = getDefaultOptions(options);
-  const containerProps = {
+  const containerProps: ContainerProps = {
+    INTERNAL__blockRefresh: false,
     INTERNAL__sharedGetProgressBarStates: createSharedValue(() =>
       [...pool.getValues()].map((progressBar) => progressBar.getState()),
     ),
     ...mergedOptions,
-  } as const;
+  };
 
   const pool = new ProgressBarPool();
 
-  function renderContainer(): void {
+  function renderContainer(additionalProps?: Partial<ContainerProps>): void {
     if (instance !== null) return;
 
-    instance = render(createContainerElement(containerProps));
+    instance = render(
+      createContainerElement({ ...containerProps, ...additionalProps }),
+    );
   }
 
-  function rerenderContainer(): void {
+  function rerenderContainer(additionalProps?: Partial<ContainerProps>): void {
     if (instance === null) return;
 
-    instance.rerender(createContainerElement(containerProps));
+    instance.rerender(
+      createContainerElement({ ...containerProps, ...additionalProps }),
+    );
   }
 
   function unmountContainer(): void {
+    rerenderContainer({ INTERNAL__blockRefresh: true });
+
     instance?.unmount();
     instance = null;
   }
@@ -68,12 +76,9 @@ export function xLane(options: XLaneOptions): XLane {
       }
     },
     removeAll: () => {
-      pool.clear();
+      unmountContainer();
 
-      // TODO: unmount after last re-render phase
-      setTimeout(() => {
-        unmountContainer();
-      }, mergedOptions.refreshRate);
+      pool.clear();
     },
   };
 }

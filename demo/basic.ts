@@ -41,8 +41,8 @@ async function main(): Promise<void> {
   const p5 = xlane.add(TOTAL);
 
   await Promise.all([
-    startTask(p1),
-    startTask(p2),
+    startTask(p1, true),
+    startTask(p2, true),
     startTask(p3),
     startTask(p4),
     startTask(p5),
@@ -53,9 +53,9 @@ async function main(): Promise<void> {
   await Promise.all([
     startTask(p1, true),
     startTask(p2, true),
-    startTask(p3, true),
-    startTask(p4, true),
-    startTask(p5, true),
+    startTask(p3),
+    startTask(p4),
+    startTask(p5),
   ]);
 
   xlane.removeAll();

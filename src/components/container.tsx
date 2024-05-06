@@ -7,6 +7,7 @@ import type { SharedValue } from '../types';
 import { ProgressBar, type ProgressBarProps } from './progress-bar';
 
 export interface ContainerProps {
+  INTERNAL__blockRefresh: boolean;
   INTERNAL__sharedGetProgressBarStates: SharedValue<ProgressBarState[]>;
   progressBarSize: ProgressBarProps['progressBarSize'];
   activeChar: ProgressBarProps['activeChar'];
@@ -14,7 +15,10 @@ export interface ContainerProps {
   refreshRate: number;
 }
 
+const noop = (): void => void 0;
+
 export function Container({
+  INTERNAL__blockRefresh,
   INTERNAL__sharedGetProgressBarStates,
   refreshRate,
   ...progressProps
@@ -23,7 +27,10 @@ export function Container({
     sharedValue: INTERNAL__sharedGetProgressBarStates,
   });
 
-  useRefreshRate({ refreshRate, handler: syncValue });
+  useRefreshRate({
+    refreshRate,
+    handler: INTERNAL__blockRefresh ? noop : syncValue,
+  });
 
   return (
     <TerminalSizeProvider>
