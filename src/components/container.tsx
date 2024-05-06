@@ -21,7 +21,7 @@ export function Container({
   INTERNAL__blockRefresh,
   INTERNAL__sharedGetProgressBarStates,
   refreshRate,
-  ...progressProps
+  ...additionalProgressProps
 }: ContainerProps): React.JSX.Element {
   const { value: progressBarStates, syncValue } = useSharedValue({
     sharedValue: INTERNAL__sharedGetProgressBarStates,
@@ -34,12 +34,12 @@ export function Container({
 
   return (
     <TerminalSizeProvider>
-      {progressBarStates.map(({ id, value, total, active }) =>
+      {progressBarStates.map(({ id, active, ...progressProps }) =>
         active ? (
           <ProgressBar
             key={id}
-            value={Math.min(value / total, 1)}
             {...progressProps}
+            {...additionalProgressProps}
           />
         ) : null,
       )}

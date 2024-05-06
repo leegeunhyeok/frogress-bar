@@ -1,21 +1,48 @@
+import type { TemplateValues } from './utils/templates';
+
 export interface ProgressBarState {
   id: number;
   value: number;
   total: number;
   active: boolean;
+  template?: string;
+  templateValues?: TemplateValues;
 }
 
 export class ProgressBar {
   private active = false;
   private value = 0;
+  private total: number;
+  private template?: string;
+  private templateValues?: TemplateValues;
 
   constructor(
     private id: number,
-    private total: number,
-  ) {}
+    {
+      total,
+      template,
+      templateValues,
+    }: {
+      total: number;
+      template?: string;
+      templateValues?: TemplateValues;
+    },
+  ) {
+    this.total = total;
+    this.template = template;
+    this.templateValues = templateValues;
+  }
 
-  start(value: number, total?: number): void {
-    this.update(value, total);
+  start({
+    value,
+    total,
+    templateValues,
+  }: {
+    value: number;
+    total?: number;
+    templateValues?: TemplateValues;
+  }): void {
+    this.update({ value, total, templateValues });
     this.active = true;
   }
 
@@ -23,11 +50,23 @@ export class ProgressBar {
     this.active = false;
   }
 
-  update(value: number, total?: number): void {
+  update({
+    value,
+    total,
+    templateValues,
+  }: {
+    value: number;
+    total?: number;
+    templateValues?: TemplateValues;
+  }): void {
     this.value = value;
 
     if (typeof total === 'number') {
       this.total = total;
+    }
+
+    if (typeof templateValues === 'object') {
+      this.templateValues = templateValues;
     }
   }
 
@@ -37,6 +76,8 @@ export class ProgressBar {
       value: this.value,
       total: this.total,
       active: this.active,
+      template: this.template,
+      templateValues: this.templateValues,
     };
   }
 }

@@ -1,8 +1,11 @@
 /* eslint-disable no-console -- demo */
+/* eslint-disable @typescript-eslint/no-non-null-assertion -- allow */
 import { xLane } from '../src';
 import type { ProgressBar } from '../src/progress-bar';
 
 const TOTAL = 100;
+const TEMPLATE =
+  'Progress #{no} | {progress} | ({percentage}%, {value}/{total})';
 
 function delay(ms: number): Promise<void> {
   // eslint-disable-next-line no-promise-executor-return -- demo
@@ -12,11 +15,11 @@ function delay(ms: number): Promise<void> {
 function startTask(progress: ProgressBar, stopOnEnd = false): Promise<void> {
   let value = 0;
 
-  progress.start(value);
+  progress.start({ value });
 
   return new Promise<void>((resolve) => {
     const timer = setInterval(() => {
-      value += Math.random() * 10;
+      value += Math.random() * 5;
 
       if (value >= TOTAL) {
         if (stopOnEnd) {
@@ -27,7 +30,7 @@ function startTask(progress: ProgressBar, stopOnEnd = false): Promise<void> {
         resolve();
       }
 
-      progress.update(Math.min(value, TOTAL));
+      progress.update({ value: Math.min(value, TOTAL) });
     }, 100);
   });
 }
@@ -39,20 +42,22 @@ async function main(): Promise<void> {
   });
 
   console.log('add progress bars');
-  const p1 = xlane.add(TOTAL);
-  const p2 = xlane.add(TOTAL);
-  const p3 = xlane.add(TOTAL);
-  const p4 = xlane.add(TOTAL);
-  const p5 = xlane.add(TOTAL);
+  const [p1, p2, p3, p4, p5] = new Array(5).fill(null).map((_, index) =>
+    xlane.add({
+      total: TOTAL,
+      template: TEMPLATE,
+      templateValues: { no: (index + 1).toString() },
+    }),
+  );
 
   console.log('#1 start');
 
   await Promise.all([
-    startTask(p1, true),
-    startTask(p2),
-    startTask(p3, true),
-    startTask(p4),
-    startTask(p5, true),
+    startTask(p1!, true),
+    startTask(p2!),
+    startTask(p3!, true),
+    startTask(p4!),
+    startTask(p5!, true),
   ]);
 
   console.log('#1 end');
@@ -62,11 +67,11 @@ async function main(): Promise<void> {
   console.log('#2 start');
 
   await Promise.all([
-    startTask(p1),
-    startTask(p2),
-    startTask(p3),
-    startTask(p4),
-    startTask(p5),
+    startTask(p1!),
+    startTask(p2!),
+    startTask(p3!),
+    startTask(p4!),
+    startTask(p5!),
   ]);
 
   console.log('#2 end');

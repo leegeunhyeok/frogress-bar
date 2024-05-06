@@ -5,12 +5,6 @@ export interface SharedValue<T> {
   value: () => T;
 }
 
-/**
- * 0 to 1
- */
-export type ProgressValue = number;
-export type ProgressName = string;
-
 export interface XLaneOptions {
   /**
    * Defaults to `50` (Depend on terminal size).
