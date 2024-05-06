@@ -1,30 +1,41 @@
-import { type Instance, render } from 'ink';
-import type { ProgressName, ProgressState, XLaneOptions } from './types';
+import { render, type Instance } from 'ink';
+import { ProgressBar } from './progress-bar';
+import { ProgressBarPool } from './progress-bar-pool';
 import { createContainerElement } from './utils/create-container';
+import { createSharedValue } from './utils/create-shared-value';
+import { getDefaultOptions } from './utils/get-default-options';
+import type { XLaneOptions } from './types';
 
 interface XLane {
-  start: () => void;
-  stop: () => void;
-  update: (name: ProgressName, newState: ProgressState) => void;
+  add: (total: number) => ProgressBar;
+  remove: (progressBar: ProgressBar) => void;
+  removeAll: () => void;
 }
 
 export function xLane(options: XLaneOptions): XLane {
+  let id = 0;
   let instance: Instance | null = null;
 
-  function renderContainer(): void {
-    if (instance) {
-      return;
-    }
+  const mergedOptions = getDefaultOptions(options);
+  const containerProps = {
+    INTERNAL__sharedGetProgressBarStates: createSharedValue(() =>
+      [...pool.getValues()].map((progressBar) => progressBar.getState()),
+    ),
+    ...mergedOptions,
+  } as const;
 
-    instance = render(
-      createContainerElement({
-        progressBarSize: options.progressBarSize,
-        refreshRate: options.refreshRate,
-        INTERNAL__progressStateProxies: Object.entries(options.progresses).map(
-          ([key, value]) => ({ ...value, __name: key }),
-        ),
-      }),
-    );
+  const pool = new ProgressBarPool();
+
+  function renderContainer(): void {
+    if (instance !== null) return;
+
+    instance = render(createContainerElement(containerProps));
+  }
+
+  function rerenderContainer(): void {
+    if (instance === null) return;
+
+    instance.rerender(createContainerElement(containerProps));
   }
 
   function unmountContainer(): void {
@@ -33,14 +44,36 @@ export function xLane(options: XLaneOptions): XLane {
   }
 
   return {
-    start: () => {
-      renderContainer();
+    add: (total) => {
+      const needFirstRender = pool.size() === 0;
+      const progressBar = new ProgressBar(id++, total);
+
+      pool.add(progressBar);
+
+      if (needFirstRender) {
+        renderContainer();
+      } else {
+        rerenderContainer();
+      }
+
+      return progressBar;
     },
-    stop: () => {
-      unmountContainer();
+    remove: (progressBar) => {
+      pool.remove(progressBar);
+
+      if (pool.size() === 0) {
+        unmountContainer();
+      } else {
+        rerenderContainer();
+      }
     },
-    update: (_name, _newState) => {
-      // TODO
+    removeAll: () => {
+      pool.clear();
+
+      // TODO: unmount after last re-render phase
+      setTimeout(() => {
+        unmountContainer();
+      }, mergedOptions.refreshRate);
     },
   };
 }

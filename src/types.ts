@@ -1,13 +1,8 @@
+import type { ContainerProps } from './components/container';
 import type { ProgressBarProps } from './components/progress-bar';
 
-export interface ProgressState {
-  value: number;
-  total: number;
-}
-
-// eslint-disable-next-line @typescript-eslint/naming-convention -- internal
-export interface INTERNAL__ProgressStateProxy extends ProgressState {
-  __name: ProgressName;
+export interface SharedValue<T> {
+  value: () => T;
 }
 
 /**
@@ -17,10 +12,6 @@ export type ProgressValue = number;
 export type ProgressName = string;
 
 export interface XLaneOptions {
-  /**
-   * Progress states to render progress bar.
-   */
-  progresses: Record<ProgressName, ProgressState>;
   /**
    * Defaults to `100` (Depend on terminal size).
    */
@@ -34,7 +25,7 @@ export interface XLaneOptions {
    */
   inactiveChar?: ProgressBarProps['inactiveChar'];
   /**
-   * Defaults to `50`.
+   * Defaults to `50` (Depend on terminal size).
    */
-  refreshRate?: number;
+  refreshRate?: ContainerProps['refreshRate'];
 }

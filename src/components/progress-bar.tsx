@@ -9,18 +9,9 @@ export interface ProgressBarProps {
    * Progress value (Range: `0` to `1`)
    */
   value: ProgressValue;
-  /**
-   * Defaults to `'█'`.
-   */
-  activeChar?: string;
-  /**
-   * Defaults to `'░'`.
-   */
-  inactiveChar?: string;
-  /**
-   * Defaults to `30` (Depend on terminal size).
-   */
-  progressBarSize?: number;
+  activeChar: string;
+  inactiveChar: string;
+  progressBarSize: number;
 }
 
 export function ProgressBar({

@@ -1,37 +1,66 @@
 /* eslint-disable no-console -- demo */
 import { xLane } from '../src';
+import type { ProgressBar } from '../src/progress-bar';
 
-function delay(ms: number): Promise<void> {
-  // eslint-disable-next-line no-promise-executor-return -- demo
-  return new Promise((resolve) => setTimeout(resolve, ms));
+const TOTAL = 100;
+
+function startTask(progress: ProgressBar, stopOnEnd = false): Promise<void> {
+  let value = 0;
+
+  progress.start(value);
+
+  return new Promise<void>((resolve) => {
+    const timer = setInterval(() => {
+      value += Math.random() * 10;
+
+      if (value >= TOTAL) {
+        if (stopOnEnd) {
+          progress.stop();
+        }
+
+        clearInterval(timer);
+        resolve();
+      }
+
+      progress.update(Math.min(value, TOTAL));
+    }, 100);
+  });
 }
 
 async function main(): Promise<void> {
-  const progress = xLane({
-    progresses: {
-      first: { value: 10, total: 100 },
-      second: { value: 50, total: 100 },
-    },
+  const xlane = xLane({
     progressBarSize: 50,
   });
 
-  console.log('#1 start');
-  progress.start();
+  console.log('start');
 
-  await delay(1000);
+  const p1 = xlane.add(TOTAL);
+  const p2 = xlane.add(TOTAL);
+  const p3 = xlane.add(TOTAL);
+  const p4 = xlane.add(TOTAL);
+  const p5 = xlane.add(TOTAL);
 
-  progress.stop();
-  console.log('#1 stopped');
+  await Promise.all([
+    startTask(p1),
+    startTask(p2),
+    startTask(p3),
+    startTask(p4),
+    startTask(p5),
+  ]);
 
-  await delay(1000);
+  console.log('end 1');
 
-  console.log('#2 start');
-  progress.start();
+  await Promise.all([
+    startTask(p1, true),
+    startTask(p2, true),
+    startTask(p3, true),
+    startTask(p4, true),
+    startTask(p5, true),
+  ]);
 
-  await delay(1000);
+  xlane.removeAll();
 
-  progress.stop();
-  console.log('#2 stopped');
+  console.log('end 2');
 }
 
 // eslint-disable-next-line @typescript-eslint/no-floating-promises -- demo
