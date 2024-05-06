@@ -1,8 +1,8 @@
-import React from 'react';
+import React, { type ReactNode } from 'react';
 import { Text } from 'ink';
 import { useMaxWidth } from '../hooks/use-max-width';
 import {
-  applyTemplate,
+  parseTemplate,
   assertsIsValidTemplate,
   type TemplateValues,
 } from '../utils/templates';
@@ -38,17 +38,22 @@ export function ProgressBar({
     return `${activeBar}${inactiveBar}`;
   };
 
-  const renderProgress = (): string => {
+  const renderProgress = (): ReactNode[] => {
     assertsIsValidTemplate(template);
 
-    return applyTemplate(template, {
+    // TODO: memoize parsed tokens
+    const tokens = parseTemplate(template, {
       ...templateValues,
-      value: Math.floor(value),
-      total: Math.floor(total),
-      percentage: (ratio * 100).toFixed(2),
       progress: getProgressBar(),
     });
+
+    return tokens.map((token, index) => (
+      // eslint-disable-next-line react/no-array-index-key -- allow
+      <Text key={index} color={token.color}>
+        {token.text}
+      </Text>
+    ));
   };
 
-  return <Text>{renderProgress()}</Text>;
+  return <Text>{...renderProgress()}</Text>;
 }

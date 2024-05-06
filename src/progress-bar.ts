@@ -66,7 +66,10 @@ export class ProgressBar {
     }
 
     if (typeof templateValues === 'object') {
-      this.templateValues = templateValues;
+      this.templateValues = {
+        ...this.templateValues,
+        ...templateValues,
+      };
     }
   }
 
