@@ -13,7 +13,7 @@ export type ProgressName = string;
 
 export interface XLaneOptions {
   /**
-   * Defaults to `100` (Depend on terminal size).
+   * Defaults to `50` (Depend on terminal size).
    */
   progressBarSize?: ProgressBarProps['progressBarSize'];
   /**
@@ -25,7 +25,7 @@ export interface XLaneOptions {
    */
   inactiveChar?: ProgressBarProps['inactiveChar'];
   /**
-   * Defaults to `50` (Depend on terminal size).
+   * Defaults to `50`.
    */
   refreshRate?: ContainerProps['refreshRate'];
 }
