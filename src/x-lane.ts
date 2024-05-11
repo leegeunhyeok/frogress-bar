@@ -1,8 +1,8 @@
+import { createRef } from 'react';
 import { render, type Instance } from 'ink';
 import { ProgressBar } from './progress-bar';
-import { ProgressBarPool } from './progress-bar-pool';
+import { ProgressState } from './progress-state';
 import { createContainerElement } from './utils/create-container';
-import { createSharedValue } from './utils/create-shared-value';
 import { getDefaultOptions } from './utils/get-default-options';
 import type { ContainerProps } from './components/container';
 import type { TemplateValues } from './utils/templates';
@@ -22,16 +22,19 @@ export function xLane(options: XLaneOptions): XLane {
   let id = 0;
   let instance: Instance | null = null;
 
+  const state = new ProgressState();
+  const stateRef = createRef<ProgressState>();
+
+  // eslint-disable-next-line @typescript-eslint/ban-ts-comment -- allow
+  // @ts-expect-error
+  stateRef.current = state;
+
   const mergedOptions = getDefaultOptions(options);
   const containerProps: ContainerProps = {
+    INTERNAL__stateRef: stateRef,
     INTERNAL__blockRefresh: false,
-    INTERNAL__sharedGetProgressBarStates: createSharedValue(() =>
-      [...pool.getValues()].map((progressBar) => progressBar.getState()),
-    ),
     ...mergedOptions,
   };
-
-  const pool = new ProgressBarPool();
 
   function renderContainer(additionalProps?: Partial<ContainerProps>): void {
     if (instance !== null) return;
@@ -58,14 +61,14 @@ export function xLane(options: XLaneOptions): XLane {
 
   return {
     add: ({ total, template, templateValues }) => {
-      const needFirstRender = pool.size() === 0;
+      const needFirstRender = state.size() === 0;
       const progressBar = new ProgressBar(id++, {
         total,
         template,
         templateValues,
       });
 
-      pool.add(progressBar);
+      state.add(progressBar);
 
       if (needFirstRender) {
         renderContainer();
@@ -76,9 +79,9 @@ export function xLane(options: XLaneOptions): XLane {
       return progressBar;
     },
     remove: (progressBar) => {
-      pool.remove(progressBar);
+      state.remove(progressBar);
 
-      if (pool.size() === 0) {
+      if (state.size() === 0) {
         unmountContainer();
       } else {
         rerenderContainer();
@@ -87,7 +90,7 @@ export function xLane(options: XLaneOptions): XLane {
     removeAll: () => {
       unmountContainer();
 
-      pool.clear();
+      state.clear();
     },
   };
 }

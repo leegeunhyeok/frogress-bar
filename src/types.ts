@@ -1,10 +1,6 @@
 import type { ContainerProps } from './components/container';
 import type { ProgressBarProps } from './components/progress-bar';
 
-export interface SharedValue<T> {
-  value: () => T;
-}
-
 export interface XLaneOptions {
   /**
    * Defaults to `50` (Depend on terminal size).

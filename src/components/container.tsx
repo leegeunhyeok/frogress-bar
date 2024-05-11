@@ -1,14 +1,13 @@
-import React from 'react';
+import React, { type RefObject } from 'react';
 import { TerminalSizeProvider } from '../contexts/terminal-size';
-import { useSharedValue } from '../hooks/use-shared-value';
+import { useRefAsState } from '../hooks/use-ref-as-state';
 import { useRefreshRate } from '../hooks/use-refresh-rate';
-import type { ProgressBarState } from '../progress-bar';
-import type { SharedValue } from '../types';
+import type { ProgressState } from '../progress-state';
 import { ProgressBar, type ProgressBarProps } from './progress-bar';
 
 export interface ContainerProps {
   INTERNAL__blockRefresh: boolean;
-  INTERNAL__sharedGetProgressBarStates: SharedValue<ProgressBarState[]>;
+  INTERNAL__stateRef: RefObject<ProgressState>;
   progressBarSize: ProgressBarProps['progressBarSize'];
   activeChar: ProgressBarProps['activeChar'];
   inactiveChar: ProgressBarProps['inactiveChar'];
@@ -18,31 +17,33 @@ export interface ContainerProps {
 const noop = (): void => void 0;
 
 export function Container({
+  INTERNAL__stateRef,
   INTERNAL__blockRefresh,
-  INTERNAL__sharedGetProgressBarStates,
   refreshRate,
   ...additionalProgressProps
 }: ContainerProps): React.JSX.Element {
-  const { value: progressBarStates, syncValue } = useSharedValue({
-    sharedValue: INTERNAL__sharedGetProgressBarStates,
+  const { value: progressState, updateState } = useRefAsState({
+    ref: INTERNAL__stateRef,
   });
 
   useRefreshRate({
     refreshRate,
-    handler: INTERNAL__blockRefresh ? noop : syncValue,
+    handler: INTERNAL__blockRefresh ? noop : updateState,
   });
 
   return (
     <TerminalSizeProvider>
-      {progressBarStates.map(({ id, active, ...progressProps }) =>
-        active ? (
+      {[...progressState.getValues()].map((progress) => {
+        const { id, active, ...progressProps } = progress.getState();
+
+        return active ? (
           <ProgressBar
             key={id}
             {...progressProps}
             {...additionalProgressProps}
           />
-        ) : null,
-      )}
+        ) : null;
+      })}
     </TerminalSizeProvider>
   );
 }

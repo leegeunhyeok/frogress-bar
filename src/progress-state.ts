@@ -1,6 +1,6 @@
 import type { ProgressBar } from './progress-bar';
 
-export class ProgressBarPool {
+export class ProgressState {
   private progressBars = new Set<ProgressBar>();
 
   add(progressBar: ProgressBar): void {
