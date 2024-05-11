@@ -1,3 +1,5 @@
+import { INTERNAL_PLACEHOLDER_PROGRESS } from '../constants';
+
 type TemplatePlaceholder = `{${string}}`;
 
 type PlainText = string;
@@ -9,6 +11,7 @@ interface ColoredText {
 
 interface TemplateToken {
   text: PlainText;
+  placeholder: string | null;
   color?: string;
 }
 
@@ -23,32 +26,40 @@ function getPlaceholderName(text: string): string | null {
 }
 
 export function assertsIsValidTemplate(template: string): asserts template {
-  if (template.includes(toTemplatePlaceholder('progress'))) {
+  if (template.includes(toTemplatePlaceholder(INTERNAL_PLACEHOLDER_PROGRESS))) {
     return;
   }
 
   throw new Error(`invalid progress bar template: ${template}`);
 }
 
-export function parseTemplate(
-  template: string,
-  templateValues: TemplateValues,
-): TemplateToken[] {
+export function parseTemplate(template: string): TemplateToken[] {
   const parsedTokens: TemplateToken[] = template
-    .split(/(\{[^\}]+\})/g)
-    .map((token) => {
-      const placeholderName = getPlaceholderName(token);
-      const placeholderValue = placeholderName
-        ? templateValues[placeholderName]
-        : null;
-
-      if (typeof placeholderValue === 'string') {
-        return { text: placeholderValue };
-      } else if (placeholderValue != null) {
-        return { text: placeholderValue.text, color: placeholderValue.color };
-      }
-      return { text: token };
-    });
+    .split(/(\{[^}]+\})/g)
+    .map((value) => ({
+      text: value,
+      placeholder: getPlaceholderName(value),
+    }));
 
   return parsedTokens;
+}
+
+export function applyPlaceholder(
+  token: TemplateToken,
+  templateValues: TemplateValues,
+): TemplateToken {
+  if (token.placeholder === null) return token;
+
+  const templateValue = templateValues[token.placeholder];
+
+  if (templateValue) {
+    if (typeof templateValue === 'string') {
+      token.text = templateValue;
+    } else if (typeof templateValue === 'object') {
+      token.text = templateValue.text;
+      token.color = templateValue.color;
+    }
+  }
+
+  return token;
 }

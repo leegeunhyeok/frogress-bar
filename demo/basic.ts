@@ -4,8 +4,7 @@ import { xLane } from '../src';
 import type { ProgressBar } from '../src/progress-bar';
 
 const TOTAL = 100;
-const TEMPLATE =
-  'Progress {no} | {progress} | ({percentage}%, {value}/{total})';
+const TEMPLATE = 'Progress {no} | {progress} | ({percentage}, {value}/{total})';
 
 function delay(ms: number): Promise<void> {
   // eslint-disable-next-line no-promise-executor-return -- demo
@@ -31,12 +30,28 @@ function startTask(progress: ProgressBar, stopOnEnd = false): Promise<void> {
       }
 
       const currentValue = Math.min(value, TOTAL);
+      const percent = value / TOTAL;
+      let color: string;
+
+      if (percent >= 1) {
+        color = '#2196F3';
+      } else if (percent >= 0.75) {
+        color = '#4caf50';
+      } else if (percent >= 0.5) {
+        color = '#ffeb3b';
+      } else if (percent >= 0.25) {
+        color = '#ff9800';
+      } else {
+        color = '#f44336';
+      }
 
       progress.update({
         value: currentValue,
         templateValues: {
-          value: Math.floor(currentValue).toString(),
-          percentage: ((currentValue / TOTAL) * 100).toFixed(2),
+          percentage: {
+            text: '',
+            color,
+          },
         },
       });
     }, 100);
@@ -58,12 +73,6 @@ async function main(): Promise<void> {
         no: {
           text: `#${(index + 1).toString()}`,
           color: 'cyan',
-        },
-        value: '0',
-        percentage: '0',
-        total: {
-          text: TOTAL.toString(),
-          color: '#ff6961',
         },
       },
     }),

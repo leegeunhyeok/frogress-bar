@@ -1,11 +1,13 @@
-import React, { type ReactNode } from 'react';
-import { Text } from 'ink';
+import React, { useMemo } from 'react';
+import { Box, Text } from 'ink';
 import { useMaxWidth } from '../hooks/use-max-width';
 import {
   parseTemplate,
   assertsIsValidTemplate,
+  applyPlaceholder,
   type TemplateValues,
 } from '../utils/templates';
+import { getDefaultTemplate } from '../utils/get-default-template';
 import { DEFAULT_TEMPLATE } from '../constants';
 
 export interface ProgressBarProps {
@@ -30,6 +32,11 @@ export function ProgressBar({
   const calculatedMaxWidth = useMaxWidth(progressBarSize);
   const ratio = Math.min(value / total, 1);
 
+  const templateTokens = useMemo(() => {
+    assertsIsValidTemplate(template);
+    return parseTemplate(template);
+  }, [template]);
+
   const getProgressBar = (): string => {
     const activeWidth = Math.floor(calculatedMaxWidth * ratio);
     const activeBar = activeChar.repeat(activeWidth);
@@ -38,22 +45,30 @@ export function ProgressBar({
     return `${activeBar}${inactiveBar}`;
   };
 
-  const renderProgress = (): ReactNode[] => {
-    assertsIsValidTemplate(template);
-
-    // TODO: memoize parsed tokens
-    const tokens = parseTemplate(template, {
+  const renderProgress = (): React.JSX.Element[] => {
+    const mergedTemplateValues = {
       ...templateValues,
-      progress: getProgressBar(),
-    });
+      ...getDefaultTemplate(
+        { progress: getProgressBar(), total, value },
+        templateValues,
+      ),
+    };
 
-    return tokens.map((token, index) => (
-      // eslint-disable-next-line react/no-array-index-key -- allow
-      <Text key={index} color={token.color}>
-        {token.text}
-      </Text>
-    ));
+    return templateTokens.map((token, index) => {
+      const { text, color } = applyPlaceholder(token, mergedTemplateValues);
+
+      return (
+        // eslint-disable-next-line react/no-array-index-key -- allow
+        <Text key={index} color={color}>
+          {text}
+        </Text>
+      );
+    });
   };
 
-  return <Text>{...renderProgress()}</Text>;
+  return (
+    <Box>
+      <Text wrap="truncate">{renderProgress()}</Text>
+    </Box>
+  );
 }
