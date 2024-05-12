@@ -66,9 +66,5 @@ export function ProgressBar({
     });
   };
 
-  return (
-    <Box>
-      <Text wrap="truncate">{renderProgress()}</Text>
-    </Box>
-  );
+  return <Text wrap="truncate">{renderProgress()}</Text>;
 }
