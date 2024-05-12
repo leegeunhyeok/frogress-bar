@@ -1,4 +1,4 @@
-import type { TemplateValues } from './utils/templates';
+import type { PlaceholderConfig } from './utils/templates';
 
 export interface ProgressBarState {
   id: number;
@@ -6,7 +6,13 @@ export interface ProgressBarState {
   total: number;
   active: boolean;
   template?: string;
-  templateValues?: TemplateValues;
+  placeholderConfig?: PlaceholderConfig;
+}
+
+interface ProgressBarOptions {
+  value: number;
+  total?: number;
+  placeholder?: PlaceholderConfig;
 }
 
 export class ProgressBar {
@@ -14,35 +20,27 @@ export class ProgressBar {
   private value = 0;
   private total: number;
   private template?: string;
-  private templateValues?: TemplateValues;
+  private placeholderConfig?: PlaceholderConfig;
 
   constructor(
     private id: number,
     {
       total,
       template,
-      templateValues,
+      placeholder,
     }: {
       total: number;
       template?: string;
-      templateValues?: TemplateValues;
+      placeholder?: PlaceholderConfig;
     },
   ) {
     this.total = total;
     this.template = template;
-    this.templateValues = templateValues;
+    this.placeholderConfig = placeholder;
   }
 
-  start({
-    value,
-    total,
-    templateValues,
-  }: {
-    value: number;
-    total?: number;
-    templateValues?: TemplateValues;
-  }): void {
-    this.update({ value, total, templateValues });
+  start({ value, total, placeholder }: ProgressBarOptions): void {
+    this.update({ value, total, placeholder });
     this.active = true;
   }
 
@@ -50,25 +48,17 @@ export class ProgressBar {
     this.active = false;
   }
 
-  update({
-    value,
-    total,
-    templateValues,
-  }: {
-    value: number;
-    total?: number;
-    templateValues?: TemplateValues;
-  }): void {
+  update({ value, total, placeholder }: ProgressBarOptions): void {
     this.value = value;
 
     if (typeof total === 'number') {
       this.total = total;
     }
 
-    if (typeof templateValues === 'object') {
-      this.templateValues = {
-        ...this.templateValues,
-        ...templateValues,
+    if (typeof placeholder === 'object') {
+      this.placeholderConfig = {
+        ...this.placeholderConfig,
+        ...placeholder,
       };
     }
   }
@@ -80,7 +70,7 @@ export class ProgressBar {
       total: this.total,
       active: this.active,
       template: this.template,
-      templateValues: this.templateValues,
+      placeholderConfig: this.placeholderConfig,
     };
   }
 }

@@ -5,14 +5,14 @@ import { ProgressState } from './progress-state';
 import { createContainerElement } from './utils/create-container';
 import { getDefaultOptions } from './utils/get-default-options';
 import type { ContainerProps } from './components/container';
-import type { TemplateValues } from './utils/templates';
+import type { PlaceholderConfig } from './utils/templates';
 import type { XLaneOptions } from './types';
 
 interface XLane {
   add: (progressConfig: {
     total: number;
     template?: string;
-    templateValues?: TemplateValues;
+    placeholder?: PlaceholderConfig;
   }) => ProgressBar;
   remove: (progressBar: ProgressBar) => void;
   removeAll: () => void;
@@ -60,12 +60,12 @@ export function xLane(options: XLaneOptions): XLane {
   }
 
   return {
-    add: ({ total, template, templateValues }) => {
+    add: ({ total, template, placeholder }) => {
       const needFirstRender = state.size() === 0;
       const progressBar = new ProgressBar(id++, {
         total,
         template,
-        templateValues,
+        placeholder,
       });
 
       state.add(progressBar);

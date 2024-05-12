@@ -1,11 +1,11 @@
 import React, { useMemo } from 'react';
-import { Box, Text } from 'ink';
+import { Text } from 'ink';
 import { useMaxWidth } from '../hooks/use-max-width';
 import {
   parseTemplate,
   assertsIsValidTemplate,
   applyPlaceholder,
-  type TemplateValues,
+  type PlaceholderConfig,
 } from '../utils/templates';
 import { getDefaultTemplate } from '../utils/get-default-template';
 import { DEFAULT_TEMPLATE } from '../constants';
@@ -17,7 +17,7 @@ export interface ProgressBarProps {
   inactiveChar: string;
   progressBarSize: number;
   template?: string;
-  templateValues?: TemplateValues;
+  placeholderConfig?: PlaceholderConfig;
 }
 
 export function ProgressBar({
@@ -27,7 +27,7 @@ export function ProgressBar({
   inactiveChar,
   progressBarSize,
   template = DEFAULT_TEMPLATE,
-  templateValues = {},
+  placeholderConfig = {},
 }: ProgressBarProps): React.JSX.Element {
   const calculatedMaxWidth = useMaxWidth(progressBarSize);
   const ratio = Math.min(value / total, 1);
@@ -46,16 +46,16 @@ export function ProgressBar({
   };
 
   const renderProgress = (): React.JSX.Element[] => {
-    const mergedTemplateValues = {
-      ...templateValues,
+    const mergedPlaceholderConfig = {
+      ...placeholderConfig,
       ...getDefaultTemplate(
         { progress: getProgressBar(), total, value },
-        templateValues,
+        placeholderConfig,
       ),
     };
 
     return templateTokens.map((token, index) => {
-      const { text, color } = applyPlaceholder(token, mergedTemplateValues);
+      const { text, color } = applyPlaceholder(token, mergedPlaceholderConfig);
 
       return (
         // eslint-disable-next-line react/no-array-index-key -- allow

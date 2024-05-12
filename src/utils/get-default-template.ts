@@ -4,7 +4,7 @@ import {
   INTERNAL_PLACEHOLDER_TOTAL,
   INTERNAL_PLACEHOLDER_VALUE,
 } from '../constants';
-import type { TemplateValues } from './templates';
+import type { PlaceholderConfig } from './templates';
 
 interface GetDefaultTemplateConfig {
   progress: string;
@@ -13,15 +13,14 @@ interface GetDefaultTemplateConfig {
 }
 
 function getTemplateValue(
-  templateValues: TemplateValues,
+  placeholderConfig: PlaceholderConfig,
   text: string,
   placeholderName: string,
-): TemplateValues[keyof TemplateValues] {
-  const templateValue = templateValues[placeholderName];
+): PlaceholderConfig[keyof PlaceholderConfig] {
+  const config = placeholderConfig[placeholderName];
 
-  if (templateValue) {
-    const color =
-      typeof templateValue === 'object' ? templateValue.color : undefined;
+  if (config) {
+    const color = typeof config === 'object' ? config.color : undefined;
 
     return color ? { text, color } : text;
   }
@@ -31,8 +30,8 @@ function getTemplateValue(
 
 export function getDefaultTemplate(
   { progress, total, value }: GetDefaultTemplateConfig,
-  templateValues: TemplateValues,
-): TemplateValues {
+  templateValues: PlaceholderConfig,
+): PlaceholderConfig {
   return {
     [INTERNAL_PLACEHOLDER_PROGRESS]: getTemplateValue(
       templateValues,

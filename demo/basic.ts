@@ -47,9 +47,9 @@ function startTask(progress: ProgressBar, stopOnEnd = false): Promise<void> {
 
       progress.update({
         value: currentValue,
-        templateValues: {
+        placeholder: {
           percentage: {
-            text: '',
+            text: '23',
             color,
           },
         },
@@ -69,7 +69,7 @@ async function main(): Promise<void> {
     xlane.add({
       total: TOTAL,
       template: TEMPLATE,
-      templateValues: {
+      placeholder: {
         no: {
           text: `#${(index + 1).toString()}`,
           color: 'cyan',

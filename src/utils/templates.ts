@@ -15,7 +15,7 @@ interface TemplateToken {
   color?: string;
 }
 
-export type TemplateValues = Record<string, PlainText | ColoredText>;
+export type PlaceholderConfig = Record<string, PlainText | ColoredText>;
 
 function toTemplatePlaceholder(name: string): TemplatePlaceholder {
   return `{${name}}`;
@@ -46,18 +46,18 @@ export function parseTemplate(template: string): TemplateToken[] {
 
 export function applyPlaceholder(
   token: TemplateToken,
-  templateValues: TemplateValues,
+  placeholderConfig: PlaceholderConfig,
 ): TemplateToken {
   if (token.placeholder === null) return token;
 
-  const templateValue = templateValues[token.placeholder];
+  const config = placeholderConfig[token.placeholder];
 
-  if (templateValue) {
-    if (typeof templateValue === 'string') {
-      token.text = templateValue;
-    } else if (typeof templateValue === 'object') {
-      token.text = templateValue.text;
-      token.color = templateValue.color;
+  if (config) {
+    if (typeof config === 'string') {
+      token.text = config;
+    } else if (typeof config === 'object') {
+      token.text = config.text;
+      token.color = config.color;
     }
   }
 
