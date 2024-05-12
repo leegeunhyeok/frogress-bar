@@ -8,17 +8,19 @@ import type { ContainerProps } from './components/container';
 import type { PlaceholderConfig } from './utils/templates';
 import type { XLaneOptions } from './types';
 
+interface ProgressConfig {
+  total: number;
+  template?: string;
+  placeholder?: PlaceholderConfig;
+}
+
 interface XLane {
-  add: (progressConfig: {
-    total: number;
-    template?: string;
-    placeholder?: PlaceholderConfig;
-  }) => ProgressBar;
+  add: (progressConfig: ProgressConfig) => ProgressBar;
   remove: (progressBar: ProgressBar) => void;
   removeAll: () => void;
 }
 
-export function xLane(options: XLaneOptions): XLane {
+export function xLane(options?: XLaneOptions): XLane {
   let id = 0;
   let instance: Instance | null = null;
 
@@ -29,7 +31,7 @@ export function xLane(options: XLaneOptions): XLane {
   // @ts-expect-error
   stateRef.current = state;
 
-  const mergedOptions = getDefaultOptions(options);
+  const mergedOptions = getDefaultOptions(options ?? {});
   const containerProps: ContainerProps = {
     INTERNAL__stateRef: stateRef,
     INTERNAL__blockRefresh: false,

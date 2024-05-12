@@ -11,7 +11,7 @@ export interface XLaneOptions {
    */
   activeChar?: ProgressBarProps['activeChar'];
   /**
-   * Defaults to `'█'`.
+   * Defaults to `'░'`.
    */
   inactiveChar?: ProgressBarProps['inactiveChar'];
   /**

@@ -30,5 +30,12 @@ module.exports = {
         'import/no-named-as-default-member': 'off',
       },
     },
+    {
+      files: ['demo/**/*.ts'],
+      rules: {
+        'no-console': 'off',
+        '@typescript-eslint/no-floating-promises': 'off',
+      },
+    },
   ],
 };

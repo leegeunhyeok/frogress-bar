@@ -33,7 +33,7 @@
     "lint": "eslint .",
     "prepack": "yarn lint && yarn cleanup && yarn build",
     "release": "release-it",
-    "start": "node -r @swc-node/register demo/basic.ts"
+    "start": "node -r @swc-node/register"
   },
   "prettier": "@vercel/style-guide/prettier",
   "dependencies": {
