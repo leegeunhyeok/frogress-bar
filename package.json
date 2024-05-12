@@ -1,6 +1,6 @@
 {
   "name": "xlane",
-  "version": "0.1.0-alpha.0",
+  "version": "0.1.0-beta.0",
   "description": "React based progress bar for command-line/terminal applications",
   "keywords": [
     "cli",
