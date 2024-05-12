@@ -48,10 +48,7 @@ function startTask(progress: ProgressBar, stopOnEnd = false): Promise<void> {
       progress.update({
         value: currentValue,
         placeholder: {
-          percentage: {
-            text: '23',
-            color,
-          },
+          percentage: { color },
         },
       });
     }, 100);

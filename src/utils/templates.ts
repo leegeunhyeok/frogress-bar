@@ -5,7 +5,7 @@ type TemplatePlaceholder = `{${string}}`;
 type PlainText = string;
 
 interface ColoredText {
-  text: PlainText;
+  text?: PlainText;
   color: string;
 }
 
@@ -56,7 +56,7 @@ export function applyPlaceholder(
     if (typeof config === 'string') {
       token.text = config;
     } else if (typeof config === 'object') {
-      token.text = config.text;
+      token.text = config.text ?? '';
       token.color = config.color;
     }
   }
