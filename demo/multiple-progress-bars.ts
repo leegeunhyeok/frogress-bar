@@ -1,8 +1,8 @@
-import { xLane } from '../src';
-import { dummyTask } from './utils/dummy-task';
+import * as Frogress from '../src';
+import { dummyTask } from './__fixtures__/dummy-task';
 
 // 1. Create instance
-const xlane = xLane({
+const frogress = Frogress.create({
   progressBarSize: 50,
   activeChar: '█',
   inactiveChar: '░',
@@ -10,7 +10,7 @@ const xlane = xLane({
 });
 
 // 2. Add progress bars
-const progressBar1 = xlane.add({
+const progressBar1 = frogress.add({
   total: 100,
   template: '{label} {progress} ({percentage})',
   placeholder: {
@@ -18,7 +18,7 @@ const progressBar1 = xlane.add({
   },
 });
 
-const progressBar2 = xlane.add({
+const progressBar2 = frogress.add({
   total: 100,
   template: '{label} {progress} ({percentage})',
   placeholder: {
@@ -26,7 +26,7 @@ const progressBar2 = xlane.add({
   },
 });
 
-const progressBar3 = xlane.add({
+const progressBar3 = frogress.add({
   total: 100,
   template: '{label} {progress} ({percentage})',
   placeholder: {
@@ -58,5 +58,5 @@ Promise.all([
   }),
 ]).then(() => {
   // 5. Remove all progress bars
-  xlane.removeAll();
+  frogress.removeAll();
 });

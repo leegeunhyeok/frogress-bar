@@ -1,4 +1,4 @@
-export { xLane } from './x-lane';
+export * from './frogress';
 
 export type * from './progress-bar';
 export type * from './types';

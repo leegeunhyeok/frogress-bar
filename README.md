@@ -1,6 +1,6 @@
 <div align="center">
 
-# xlane
+# frogress-bar
 
 <img alt="logo" src="./logo.png" width="300">
 
@@ -19,19 +19,19 @@ React based progress bar for command-line/terminal applications
 
 ```bash
 # npm
-npm install xlane
+npm install frogress-bar
 
 # yarn
-yarn add xlane
+yarn add frogress-bar
 ```
 
 ## Usage
 
 ```ts
-import { xLane } from 'xlane';
+import { Frogress } from 'frogress-bar';
 
 // 1. Create instance
-const xlane = xLane({
+const frogress = Frogress.create({
   progressBarSize: 50,
   activeChar: '█',
   inactiveChar: '░',
@@ -39,7 +39,7 @@ const xlane = xLane({
 });
 
 // 2. Add new progress bar
-const progressBar = xlane.add({
+const progressBar = frogress.add({
   total: 100,
   template: '{label} {progress} ({percentage})',
   placeholder: {
@@ -47,22 +47,22 @@ const progressBar = xlane.add({
   },
 });
 
-// 3. Render progress bar
+// 3. Render progress bar#
 progressBar.start({ value: 0 });
 
 await download({
   onProgress: (percent) => {
     // 4. Update progress bar state
-    progressBar.update({ value: percent });
+   # progressBar.update({ value: percent });
   },
 });
 
-// 5. Unmount progress bar
+// 5. Unmount progress bar#
 progressBar.stop();
 
 // 6. Remove progress bar
-xlane.remove(progressBar);
-xlane.removeAll();
+frogress.remove(progressBar);
+frogress.removeAll();
 ```
 
 ![single-progress-bar](./preview/single-progress-bar.gif)
@@ -99,23 +99,21 @@ xlane.removeAll();
 
 ## Documentation
 
-### xLane
-
-Create xLane instance.
+### craete
 
 - Parameters
   | Name | Type | Required |
   |:--|:--|:--|
-  | options | `XLaneOptions` | No |
+  | options | `FrogressOptions` | No |
 - Return Value
   | Type |
   |:--|
-  | `XLane` |
+  | `Frogress` |
 
 ```ts
 /* interfaces */
 
-interface XLaneOptions {
+interface FrogressOptions {
   /**
    * Defaults to `50` (Depend on terminal size).
    */
@@ -134,13 +132,13 @@ interface XLaneOptions {
   refreshRate?: ContainerProps['refreshRate'];
 }
 
-function xLane(options?: XLaneOptions): XLane;
+function create(options?: FrogressOptions): Frogress;
 ```
 
 ```ts
-import { xLane } from 'xlane';
+import * as Frogress from 'frogress-bar';
 
-const instance = xLane(options);
+const instance = Frogress.create(options);
 ```
 
 - `progressBarSize`: Defaults to `50` (Depend on terminal size).
@@ -148,7 +146,11 @@ const instance = xLane(options);
 - `inactiveChar`: Defaults to `'░'`.
 - `refreshRate`: Defaults to `50`.
 
-### XLane.add
+### Frogress
+
+Frogress instance.
+
+#### Frogress.add
 
 Create a new `ProgressBar` into instance context.
 It can be called multiple times for multiple progress bars.
@@ -178,7 +180,7 @@ function add(progressConfig: ProgressConfig): ProgressBar;
 - `template`: [Template](#template) string.
 - `placeholder`: Key-Value data that replace of template's placeholders.
 
-### XLane.remove
+#### Frogress.remove
 
 Unmount & Remove specified `ProgressBar` from current context.
 
@@ -197,7 +199,7 @@ Unmount & Remove specified `ProgressBar` from current context.
 function remove(progressBar: ProgressBar): void;
 ```
 
-### XLane.removeAll
+#### Frogress.removeAll
 
 Unmount & Remove all progress bars from current context.
 
@@ -212,7 +214,11 @@ Unmount & Remove all progress bars from current context.
 function removeAll(): void;
 ```
 
-### ProgressBar.start
+### ProgressBar
+
+Progress bar instance.
+
+#### ProgressBar.start
 
 Render progress bar.
 
@@ -241,7 +247,7 @@ function start(options: ProgressBarOptions): void;
 - `total`: total progress value.
 - `placeholder`: Key-Value data that replace of template's placeholders.
 
-### ProgressBar.update
+#### ProgressBar.update
 
 Set new states and re-render progress bar.
 
@@ -270,7 +276,7 @@ function update(options: ProgressBarOptions): void;
 - `total`: total progress value.
 - `placeholder`: Key-Value data that replace of template's placeholders.
 
-### ProgressBar.stop
+#### ProgressBar.stop
 
 Unmount progress bar.
 
@@ -284,11 +290,11 @@ function stop(): void;
 ## Template
 
 > [!WARNING]
-> If you use reserved placeholder name, it will be overwritten to internal value of xlane.
+> If you use reserved placeholder name, it will be overwritten to internal value of Frogress.
 
 ```ts
 const templateString = 'Template {label} {progress} | {test}';
-
+#
 progressBar.update({
   placeholder: {
     label: '#1',

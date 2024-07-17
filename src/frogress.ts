@@ -6,7 +6,7 @@ import { createContainerElement } from './utils/create-container';
 import { getDefaultOptions } from './utils/get-default-options';
 import type { ContainerProps } from './components/container';
 import type { PlaceholderConfig } from './utils/templates';
-import type { XLaneOptions } from './types';
+import type { FrogressOptions } from './types';
 
 interface ProgressConfig {
   total: number;
@@ -14,13 +14,13 @@ interface ProgressConfig {
   placeholder?: PlaceholderConfig;
 }
 
-interface XLane {
+interface Frogress {
   add: (progressConfig: ProgressConfig) => ProgressBar;
   remove: (progressBar: ProgressBar) => void;
   removeAll: () => void;
 }
 
-export function xLane(options?: XLaneOptions): XLane {
+function createFrogressInstance(options?: FrogressOptions): Frogress {
   let id = 0;
   let instance: Instance | null = null;
 
@@ -96,3 +96,5 @@ export function xLane(options?: XLaneOptions): XLane {
     },
   };
 }
+
+export { createFrogressInstance as create };

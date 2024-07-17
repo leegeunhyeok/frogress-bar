@@ -3235,6 +3235,25 @@ __metadata:
   languageName: node
   linkType: hard
 
+"frogress-bar@workspace:.":
+  version: 0.0.0-use.local
+  resolution: "frogress-bar@workspace:."
+  dependencies:
+    "@swc-node/register": "npm:^1.9.1"
+    "@swc/core": "npm:^1.4.17"
+    "@types/node": "npm:20.11.1"
+    "@types/react": "npm:^18.3.1"
+    "@vercel/style-guide": "npm:^6.0.0"
+    esbuild: "npm:^0.20.2"
+    eslint: "npm:^8.56.0"
+    ink: "npm:^3"
+    prettier: "npm:^3.2.5"
+    react: "npm:^18.3.1"
+    release-it: "npm:^17.2.1"
+    typescript: "npm:^5.4.5"
+  languageName: unknown
+  linkType: soft
+
 "fs-extra@npm:^11.2.0":
   version: 11.2.0
   resolution: "fs-extra@npm:11.2.0"
@@ -6828,25 +6847,6 @@ __metadata:
   checksum: 10c0/c88efabc71ffd996ba9ad8923a8cc1c7c020a03e2c59f0ffa72e06be9e724ad2a0fccef488757bc6ed3d8849d753dd25082d1035d95cb179e79eae4d034d0b80
   languageName: node
   linkType: hard
-
-"xlane@workspace:.":
-  version: 0.0.0-use.local
-  resolution: "xlane@workspace:."
-  dependencies:
-    "@swc-node/register": "npm:^1.9.1"
-    "@swc/core": "npm:^1.4.17"
-    "@types/node": "npm:20.11.1"
-    "@types/react": "npm:^18.3.1"
-    "@vercel/style-guide": "npm:^6.0.0"
-    esbuild: "npm:^0.20.2"
-    eslint: "npm:^8.56.0"
-    ink: "npm:^3"
-    prettier: "npm:^3.2.5"
-    react: "npm:^18.3.1"
-    release-it: "npm:^17.2.1"
-    typescript: "npm:^5.4.5"
-  languageName: unknown
-  linkType: soft
 
 "yallist@npm:^3.0.2":
   version: 3.1.1

@@ -1,5 +1,5 @@
 {
-  "name": "xlane",
+  "name": "frogress-bar",
   "version": "0.1.0-beta.0",
   "description": "React based progress bar for command-line/terminal applications",
   "keywords": [
@@ -8,7 +8,7 @@
     "progress",
     "react"
   ],
-  "homepage": "https://github.com/leegeunhyeok/xlane#readme",
+  "homepage": "https://github.com/leegeunhyeok/frogress-bar#readme",
   "license": "MIT",
   "author": "leegeunhyeok <dev.ghlee@gmail.com>",
   "exports": {

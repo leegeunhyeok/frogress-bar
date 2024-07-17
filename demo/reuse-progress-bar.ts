@@ -1,10 +1,10 @@
 import { stdin } from 'node:process';
 import { emitKeypressEvents } from 'node:readline';
-import { xLane } from '../src';
-import { dummyTask } from './utils/dummy-task';
+import * as Frogress from '../src';
+import { dummyTask } from './__fixtures__/dummy-task';
 
 // 1. Create instance
-const xlane = xLane({
+const frogress = Frogress.create({
   progressBarSize: 50,
   activeChar: '█',
   inactiveChar: '░',
@@ -12,7 +12,7 @@ const xlane = xLane({
 });
 
 // 2. Add progress bars
-const progressBar = xlane.add({
+const progressBar = frogress.add({
   total: 100,
   template: 'Bundle {progress} ({value}/{total} Modules, {percentage})',
   placeholder: {
@@ -60,7 +60,7 @@ if (stdin.isTTY) {
     if (key.ctrl) {
       if (key.name === 'c') {
         // 5. Remove all progress bars
-        xlane.removeAll();
+        frogress.removeAll();
         process.exit(0);
       }
     } else if (key.name === 'b') {
