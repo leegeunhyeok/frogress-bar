@@ -13,6 +13,7 @@ React based progress bar for command-line/terminal applications
 - 🌱 Simple & Easy to use
 - 🔥 Supports single & multiple progress bar
 - 🎨 Supports 256 & Truecolor
+- 💧 Responsive size
 - ⭐️ Fully customizable
 
 ## Installation
@@ -28,7 +29,7 @@ yarn add frogress-bar
 ## Usage
 
 ```ts
-import { Frogress } from 'frogress-bar';
+import * as Frogress from 'frogress-bar';
 
 // 1. Create instance
 const frogress = Frogress.create({
