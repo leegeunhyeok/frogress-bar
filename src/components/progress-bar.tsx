@@ -1,6 +1,6 @@
 import React, { useMemo } from 'react';
 import { Text } from 'ink';
-import type { PlaceholderConfig } from '../types';
+import type { Placeholder } from '../types';
 import { useMaxWidth } from '../hooks/use-max-width';
 import {
   parseTemplate,
@@ -17,7 +17,7 @@ export interface ProgressBarProps {
   inactiveChar: string;
   progressBarSize: number;
   template?: string;
-  placeholder?: PlaceholderConfig;
+  placeholder?: Placeholder;
 }
 
 export function ProgressBar({

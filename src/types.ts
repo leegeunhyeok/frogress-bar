@@ -4,7 +4,7 @@ export interface FrogressConfig {
   /**
    * Defaults to `0`.
    */
-  value?: number
+  value?: number;
   /**
    * Defaults to `100`.
    */
@@ -32,14 +32,10 @@ export interface FrogressConfig {
    *
    * Defaults to `{}`.
    */
-  placeholder?: PlaceholderConfig;
+  placeholder?: Placeholder;
 }
 
-export type PlaceholderConfig = Record<string, PlainText | ColoredText>;
+export type Placeholder = Record<string, string>;
 
-export type PlainText = string;
-
-export interface ColoredText {
-  text?: PlainText;
-  color: string;
-}
+export const COLOR = Symbol('color');
+export const COLOR_ONLY = Symbol('color-only');
