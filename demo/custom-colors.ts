@@ -13,10 +13,7 @@ const progressBar1 = Frogress.create({
   total: 100,
   template: 'Downloader {no} {progress} ({value}/{total}, {percentage})',
   placeholder: {
-    no: {
-      text: '#1',
-      color: 'grey',
-    },
+    no: '#1',
   },
 });
 
@@ -25,10 +22,7 @@ const progressBar2 = Frogress.create({
   total: 100,
   template: 'Downloader {no} {progress} ({value}/{total}, {percentage})',
   placeholder: {
-    no: {
-      text: '#2',
-      color: 'grey',
-    },
+    no: '#2',
   },
 });
 
@@ -37,10 +31,7 @@ const progressBar3 = Frogress.create({
   total: 100,
   template: 'Downloader {no} {progress} ({value}/{total}, {percentage})',
   placeholder: {
-    no: {
-      text: '#3',
-      color: 'grey',
-    },
+    no: '#3',
   },
 });
 
@@ -74,9 +65,7 @@ Promise.all([
       progressBar1.update({
         value: progress,
         placeholder: {
-          percentage: {
-            color: getColorByPercent(progress),
-          },
+          percentage: Frogress.color(getColorByPercent(progress)),
         },
       });
     },
@@ -86,9 +75,7 @@ Promise.all([
       progressBar2.update({
         value: progress,
         placeholder: {
-          percentage: {
-            color: getColorByPercent(progress),
-          },
+          percentage: Frogress.color(getColorByPercent(progress)),
         },
       });
     },
@@ -98,9 +85,7 @@ Promise.all([
       progressBar3.update({
         value: progress,
         placeholder: {
-          percentage: {
-            color: getColorByPercent(progress),
-          },
+          percentage: Frogress.color(getColorByPercent(progress)),
         },
       });
     },

@@ -141,7 +141,7 @@ interface FrogressConfig {
    *
    * Defaults to `{}`.
    */
-  placeholder?: PlaceholderConfig;
+  placeholder?: Record<string, string>;
 }
 
 function create(config?: FrogressConfig): ProgressBar;
@@ -239,7 +239,7 @@ Render progress bar.
 interface ProgressValues {
   value: number;
   total?: number;
-  placeholder?: PlaceholderConfig;
+  placeholder?: Record<string, string>;
 }
 
 function start(values: ProgressValues): void;
@@ -268,7 +268,7 @@ Set new states and re-render progress bar.
 interface ProgressValues {
   value: number;
   total?: number;
-  placeholder?: PlaceholderConfig;
+  placeholder?: Record<string, string>;
 }
 
 function update(values: ProgressValues): void;
@@ -299,11 +299,10 @@ const templateString = 'Template {label} {progress} | {test}';
 
 progressBar.update({
   placeholder: {
+    // Plain placeholder
     label: '#1',
-    test: {
-      text: 'Colored!!',
-      color: '#00ffff',
-    },
+    // Placeholder with color
+    test: Frogress.color('Colored!!', '#00ffff'),
   },
 });
 

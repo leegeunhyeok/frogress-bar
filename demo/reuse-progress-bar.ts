@@ -10,11 +10,6 @@ const progressBar = Frogress.create({
   inactiveChar: '░',
   total: 100,
   template: 'Bundle {progress} ({value}/{total} Modules, {percentage})',
-  placeholder: {
-    no: {
-      color: 'grey',
-    },
-  },
 });
 
 let status: 'idle' | 'building' = 'idle';

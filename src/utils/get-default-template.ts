@@ -4,7 +4,8 @@ import {
   INTERNAL_PLACEHOLDER_TOTAL,
   INTERNAL_PLACEHOLDER_VALUE,
 } from '../constants';
-import type { PlaceholderConfig } from '../types';
+import type { Placeholder } from '../types';
+import { isColorOnly, toColored, getColor } from './colors';
 
 interface GetDefaultTemplateConfig {
   progress: string;
@@ -13,16 +14,25 @@ interface GetDefaultTemplateConfig {
 }
 
 function getTemplateValue(
-  placeholderConfig: PlaceholderConfig,
+  placeholder: Placeholder,
   text: string,
   placeholderName: string,
-): PlaceholderConfig[keyof PlaceholderConfig] {
-  const config = placeholderConfig[placeholderName];
+): Placeholder[keyof Placeholder] {
+  const value = placeholder[placeholderName];
+  const color = value ? getColor(value) : null;
 
-  if (config) {
-    const color = typeof config === 'object' ? config.color : undefined;
+  if (value && color) {
+    if (isColorOnly(value)) {
+      return toColored(text, color);
+    }
 
-    return color ? { text, color } : text;
+    throw new Error(
+      [
+        `Unable to change reserved placeholder text (${placeholderName}).`,
+        '',
+        `use \`color('${color}')\` instead of \`color(text, '${color}')\`.`,
+      ].join('\n'),
+    );
   }
 
   return text;
@@ -30,8 +40,8 @@ function getTemplateValue(
 
 export function getDefaultTemplate(
   { progress, total, value }: GetDefaultTemplateConfig,
-  templateValues: PlaceholderConfig,
-): PlaceholderConfig {
+  templateValues: Placeholder,
+): Placeholder {
   return {
     [INTERNAL_PLACEHOLDER_PROGRESS]: getTemplateValue(
       templateValues,
