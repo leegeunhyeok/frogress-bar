@@ -9,7 +9,7 @@ import { createContainerElement } from './utils/create-container';
 import { DEFAULT_REFRESH_RATE } from './constants';
 
 interface FrogressManager {
-  create: (config: FrogressConfig) => ProgressBar;
+  create: (config?: FrogressConfig) => ProgressBar;
   remove: (progressBar: ProgressBar) => void;
   removeAll: () => void;
   setOptions: (options: ContainerOptions) => void;
@@ -56,7 +56,7 @@ export function initialize(): FrogressManager {
   }
 
   return {
-    create: ({ total, template, placeholder }) => {
+    create: ({ total, template, placeholder } = {}) => {
       const needFirstRender = state.size() === 0;
       const progressBar = new ProgressBar(id++, {
         total,

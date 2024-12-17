@@ -8,8 +8,17 @@ export interface ProgressBarState extends ProgressBarProps {
 }
 
 interface ProgressValues {
+  /**
+   * Current progress value.
+   */
   value: number;
+  /**
+   * Total progress value.
+   */
   total?: number;
+  /**
+   * Key-Value data that replace of template's placeholders.
+   */
   placeholder?: PlaceholderConfig;
 }
 

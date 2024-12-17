@@ -31,16 +31,8 @@ yarn add frogress-bar
 ```ts
 import * as Frogress from 'frogress-bar';
 
-// 1. Create instance
-const frogress = Frogress.create({
-  progressBarSize: 50,
-  activeChar: '█',
-  inactiveChar: '░',
-  refreshRate: 50,
-});
-
-// 2. Add new progress bar
-const progressBar = frogress.add({
+// 1. Create new progress bar
+const progressBar = Frogress.create({
   total: 100,
   template: '{label} {progress} ({percentage})',
   placeholder: {
@@ -48,22 +40,22 @@ const progressBar = frogress.add({
   },
 });
 
-// 3. Render progress bar#
+// 2. Render progress bar
 progressBar.start({ value: 0 });
 
 await download({
   onProgress: (percent) => {
-    // 4. Update progress bar state
-   # progressBar.update({ value: percent });
+    // 3. Update progress bar state
+    progressBar.update({ value: percent });
   },
 });
 
-// 5. Unmount progress bar#
+// 4. Unmount progress bar#
 progressBar.stop();
 
-// 6. Remove progress bar
-frogress.remove(progressBar);
-frogress.removeAll();
+// 5. Remove progress bar
+Frogress.remove(progressBar);
+Frogress.removeAll();
 ```
 
 ![single-progress-bar](./preview/single-progress-bar.gif)
@@ -100,12 +92,15 @@ frogress.removeAll();
 
 ## Documentation
 
-### craete
+### create
+
+Create a new `ProgressBar` instance.
+It can be called multiple times for multiple progress bars.
 
 - Parameters
   | Name | Type | Required |
   |:--|:--|:--|
-  | options | `FrogressOptions` | No |
+  | options | `FrogressConfig` | No |
 - Return Value
   | Type |
   |:--|
@@ -114,74 +109,54 @@ frogress.removeAll();
 ```ts
 /* interfaces */
 
-interface FrogressOptions {
+interface FrogressConfig {
+  /**
+   * Defaults to `0`.
+   */
+  value?: number;
+  /**
+   * Defaults to `100`.
+   */
+  total?: number;
   /**
    * Defaults to `50` (Depend on terminal size).
    */
-  progressBarSize?: ProgressBarProps['progressBarSize'];
+  progressBarSize?: number;
   /**
    * Defaults to `'█'`.
    */
-  activeChar?: ProgressBarProps['activeChar'];
+  activeChar?: string;
   /**
    * Defaults to `'░'`.
    */
-  inactiveChar?: ProgressBarProps['inactiveChar'];
+  inactiveChar?: string;
   /**
-   * Defaults to `50`.
+   *
    */
-  refreshRate?: ContainerProps['refreshRate'];
+  template?: string;
+  placeholder?: PlaceholderConfig;
 }
 
-function create(options?: FrogressOptions): Frogress;
+function create(config?: FrogressConfig): ProgressBar;
 ```
 
 ```ts
 import * as Frogress from 'frogress-bar';
 
-const instance = Frogress.create(options);
+const progressBar = Frogress.create(config);
 ```
 
+- `value`: Defaults to `0`.
+- `total`: Defaults to `100`.
 - `progressBarSize`: Defaults to `50` (Depend on terminal size).
 - `activeChar`: Defaults to `'█'`.
 - `inactiveChar`: Defaults to `'░'`.
-- `refreshRate`: Defaults to `50`.
+- `template`: [Template](#template) string. Defaults to `'{progress}'`.
+- `placeholder`: Key-Value data that replace of template's placeholders. Defaults to `{}`.
 
-### Frogress
+### update
 
-Frogress instance.
-
-#### Frogress.add
-
-Create a new `ProgressBar` into instance context.
-It can be called multiple times for multiple progress bars.
-
-- Parameters
-  | Name | Type | Required |
-  |:--|:--|:--|
-  | progressConfig | `ProgressConfig` | Yes |
-- Return Value
-  | Type |
-  |:--|
-  | `ProgressBar` |
-
-```ts
-/* interfaces */
-
-interface ProgressConfig {
-  total: number;
-  template?: string;
-  placeholder?: PlaceholderConfig;
-}
-
-function add(progressConfig: ProgressConfig): ProgressBar;
-```
-
-- `total` Total value.
-- `template`: [Template](#template) string.
-- `placeholder`: Key-Value data that replace of template's placeholders.
-
-#### Frogress.remove
+### remove
 
 Unmount & Remove specified `ProgressBar` from current context.
 
@@ -200,7 +175,7 @@ Unmount & Remove specified `ProgressBar` from current context.
 function remove(progressBar: ProgressBar): void;
 ```
 
-#### Frogress.removeAll
+#### removeAll
 
 Unmount & Remove all progress bars from current context.
 
@@ -215,18 +190,14 @@ Unmount & Remove all progress bars from current context.
 function removeAll(): void;
 ```
 
-### ProgressBar
+### setOptions
 
-Progress bar instance.
-
-#### ProgressBar.start
-
-Render progress bar.
+Applies the options to the Frogress container.
 
 - Parameters
   | Name | Type | Required |
   |:--|:--|:--|
-  | options | `ProgressBarOptions` | Yes |
+  | options | `ContainerOptions` | Yes |
 - Return Value
   | Type |
   |:--|
@@ -235,13 +206,38 @@ Render progress bar.
 ```ts
 /* interfaces */
 
-interface ProgressBarOptions {
+interface ContainerOptions {
+  refreshRate: number;
+}
+
+function setOptions(options: ContainerOptions): void;
+```
+
+- `refreshRate`: Defaults to `50`.
+
+#### ProgressBar.start
+
+Render progress bar.
+
+- Parameters
+  | Name | Type | Required |
+  |:--|:--|:--|
+  | options | `ProgressValues` | Yes |
+- Return Value
+  | Type |
+  |:--|
+  | `void` |
+
+```ts
+/* interfaces */
+
+interface ProgressValues {
   value: number;
   total?: number;
   placeholder?: PlaceholderConfig;
 }
 
-function start(options: ProgressBarOptions): void;
+function start(values: ProgressValues): void;
 ```
 
 - `value`: current progress value.
@@ -255,7 +251,7 @@ Set new states and re-render progress bar.
 - Parameters
   | Name | Type | Required |
   |:--|:--|:--|
-  | options | `ProgressBarOptions` | Yes |
+  | options | `ProgressValues` | Yes |
 - Return Value
   | Type |
   |:--|
@@ -264,13 +260,13 @@ Set new states and re-render progress bar.
 ```ts
 /* interfaces */
 
-interface ProgressBarOptions {
+interface ProgressValues {
   value: number;
   total?: number;
   placeholder?: PlaceholderConfig;
 }
 
-function update(options: ProgressBarOptions): void;
+function update(values: ProgressValues): void;
 ```
 
 - `value`: current progress value.
@@ -282,7 +278,7 @@ function update(options: ProgressBarOptions): void;
 Unmount progress bar.
 
 > [!NOTE]  
-> If you want to exit the process, you should remove all of progress bars from context.
+> If you want to exit the process, you should remove all of progress bars.
 
 ```ts
 function stop(): void;
@@ -295,19 +291,19 @@ function stop(): void;
 
 ```ts
 const templateString = 'Template {label} {progress} | {test}';
-#
+
 progressBar.update({
   placeholder: {
     label: '#1',
     test: {
-      text: 'Colored Text',
+      text: 'Colored!!',
       color: '#00ffff',
     },
   },
 });
 
 // Preview
-// Template #1 ██████████████░░░░░░░░░░░░░░░░ | Colored Text
+// Template #1 ██████████████░░░░░░░░░░░░░░░░ | Colored!!
 ```
 
 - Reserved placeholders
