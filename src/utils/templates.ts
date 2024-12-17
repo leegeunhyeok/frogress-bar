@@ -1,21 +1,13 @@
 import { INTERNAL_PLACEHOLDER_PROGRESS } from '../constants';
+import type { PlaceholderConfig, PlainText } from '../types';
 
 type TemplatePlaceholder = `{${string}}`;
-
-type PlainText = string;
-
-interface ColoredText {
-  text?: PlainText;
-  color: string;
-}
 
 interface TemplateToken {
   text: PlainText;
   placeholder: string | null;
   color?: string;
 }
-
-export type PlaceholderConfig = Record<string, PlainText | ColoredText>;
 
 function toTemplatePlaceholder(name: string): TemplatePlaceholder {
   return `{${name}}`;

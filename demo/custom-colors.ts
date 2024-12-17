@@ -1,16 +1,15 @@
 import * as Frogress from '../src';
 import { dummyTask } from './__fixtures__/dummy-task';
 
-// 1. Create instance
-const frogress = Frogress.create({
+const defaultConfig = {
   progressBarSize: 50,
   activeChar: '█',
   inactiveChar: '░',
-  refreshRate: 50,
-});
+} as const;
 
-// 2. Add progress bars
-const progressBar1 = frogress.add({
+// 1. Create progress bars
+const progressBar1 = Frogress.create({
+  ...defaultConfig,
   total: 100,
   template: 'Downloader {no} {progress} ({value}/{total}, {percentage})',
   placeholder: {
@@ -21,7 +20,8 @@ const progressBar1 = frogress.add({
   },
 });
 
-const progressBar2 = frogress.add({
+const progressBar2 = Frogress.create({
+  ...defaultConfig,
   total: 100,
   template: 'Downloader {no} {progress} ({value}/{total}, {percentage})',
   placeholder: {
@@ -32,7 +32,8 @@ const progressBar2 = frogress.add({
   },
 });
 
-const progressBar3 = frogress.add({
+const progressBar3 = Frogress.create({
+  ...defaultConfig,
   total: 100,
   template: 'Downloader {no} {progress} ({value}/{total}, {percentage})',
   placeholder: {
@@ -43,7 +44,7 @@ const progressBar3 = frogress.add({
   },
 });
 
-// 3. Render progress bar
+// 2. Render progress bar
 progressBar1.start({ value: 0 });
 progressBar2.start({ value: 0 });
 progressBar3.start({ value: 0 });
@@ -66,7 +67,7 @@ function getColorByPercent(percent: number): string {
   return color;
 }
 
-// 4. Update progress bar state
+// 3. Update progress bar state
 Promise.all([
   dummyTask({
     onProgress: (progress) => {
@@ -105,6 +106,6 @@ Promise.all([
     },
   }),
 ]).then(() => {
-  // 5. Remove all progress bars
-  frogress.removeAll();
+  // 4. Remove all progress bars
+  Frogress.removeAll();
 });
