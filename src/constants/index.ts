@@ -1,5 +1,6 @@
+export const DEFAULT_VALUE = 0;
+export const DEFAULT_TOTAL_VALUE = 100;
 export const DEFAULT_REFRESH_RATE = 50;
-
 export const DEFAULT_PROGRESS_BAR_SIZE = 50;
 
 export const DEFAULT_ACTIVE_CHAR = '\u2588'; // █

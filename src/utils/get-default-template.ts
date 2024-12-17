@@ -4,7 +4,7 @@ import {
   INTERNAL_PLACEHOLDER_TOTAL,
   INTERNAL_PLACEHOLDER_VALUE,
 } from '../constants';
-import type { PlaceholderConfig } from './templates';
+import type { PlaceholderConfig } from '../types';
 
 interface GetDefaultTemplateConfig {
   progress: string;

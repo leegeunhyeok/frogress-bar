@@ -1,26 +1,20 @@
 import { createRef } from 'react';
 import { render, type Instance } from 'ink';
-import { ProgressBar } from './progress-bar';
 import { ProgressState } from './progress-state';
+import type { FrogressConfig } from './types';
+import type { ContainerOptions, ContainerProps } from './components/container';
+import { ProgressBar } from './progress-bar';
 import { createContainerElement } from './utils/create-container';
-import { getDefaultOptions } from './utils/get-default-options';
-import type { ContainerProps } from './components/container';
-import type { PlaceholderConfig } from './utils/templates';
-import type { FrogressOptions } from './types';
+import { DEFAULT_REFRESH_RATE } from './constants';
 
-interface ProgressConfig {
-  total: number;
-  template?: string;
-  placeholder?: PlaceholderConfig;
-}
-
-interface Frogress {
-  add: (progressConfig: ProgressConfig) => ProgressBar;
+interface FrogressManager {
+  create: (config?: FrogressConfig) => ProgressBar;
   remove: (progressBar: ProgressBar) => void;
   removeAll: () => void;
+  setOptions: (options: ContainerOptions) => void;
 }
 
-function createFrogressInstance(options?: FrogressOptions): Frogress {
+export function initialize(): FrogressManager {
   let id = 0;
   let instance: Instance | null = null;
 
@@ -31,14 +25,13 @@ function createFrogressInstance(options?: FrogressOptions): Frogress {
   // @ts-expect-error
   stateRef.current = state;
 
-  const mergedOptions = getDefaultOptions(options ?? {});
-  const containerProps: ContainerProps = {
+  let containerProps: Required<ContainerProps & ContainerOptions> = {
     INTERNAL__stateRef: stateRef,
     INTERNAL__blockRefresh: false,
-    ...mergedOptions,
+    refreshRate: DEFAULT_REFRESH_RATE,
   };
 
-  function renderContainer(additionalProps?: Partial<ContainerProps>): void {
+  function renderContainer(additionalProps?: Partial<ContainerProps & ContainerOptions>): void {
     if (instance !== null) return;
 
     instance = render(
@@ -46,7 +39,7 @@ function createFrogressInstance(options?: FrogressOptions): Frogress {
     );
   }
 
-  function rerenderContainer(additionalProps?: Partial<ContainerProps>): void {
+  function rerenderContainer(additionalProps?: Partial<ContainerProps & ContainerOptions>): void {
     if (instance === null) return;
 
     instance.rerender(
@@ -62,7 +55,7 @@ function createFrogressInstance(options?: FrogressOptions): Frogress {
   }
 
   return {
-    add: ({ total, template, placeholder }) => {
+    create: ({ total, template, placeholder } = {}) => {
       const needFirstRender = state.size() === 0;
       const progressBar = new ProgressBar(id++, {
         total,
@@ -70,31 +63,33 @@ function createFrogressInstance(options?: FrogressOptions): Frogress {
         placeholder,
       });
 
-      state.add(progressBar);
-
       if (needFirstRender) {
         renderContainer();
       } else {
         rerenderContainer();
       }
 
+      state.add(progressBar);
+
       return progressBar;
     },
     remove: (progressBar) => {
-      state.remove(progressBar);
-
       if (state.size() === 0) {
         unmountContainer();
       } else {
         rerenderContainer();
       }
+
+      state.remove(progressBar);
     },
     removeAll: () => {
       unmountContainer();
 
       state.clear();
     },
+    setOptions: (options) => {
+      containerProps = { ...containerProps, ...options };
+      rerenderContainer();
+    },
   };
 }
-
-export { createFrogressInstance as create };

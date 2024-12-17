@@ -1,17 +1,24 @@
-import type { PlaceholderConfig } from './utils/templates';
+import type { FrogressConfig, PlaceholderConfig } from './types';
+import type { ProgressBarProps } from './components/progress-bar';
+import { getDefaultConfig } from './utils/get-default-config';
 
-export interface ProgressBarState {
+export interface ProgressBarState extends ProgressBarProps {
   id: number;
-  value: number;
-  total: number;
   active: boolean;
-  template?: string;
-  placeholderConfig?: PlaceholderConfig;
 }
 
-interface ProgressBarOptions {
+interface ProgressValues {
+  /**
+   * Current progress value.
+   */
   value: number;
+  /**
+   * Total progress value.
+   */
   total?: number;
+  /**
+   * Key-Value data that replace of template's placeholders.
+   */
   placeholder?: PlaceholderConfig;
 }
 
@@ -19,27 +26,22 @@ export class ProgressBar {
   private active = false;
   private value = 0;
   private total: number;
-  private template?: string;
-  private placeholderConfig?: PlaceholderConfig;
+  private placeholder?: PlaceholderConfig;
+  private config: Required<Omit<FrogressConfig, 'value' | 'total' | 'placeholder'>>;
 
   constructor(
     private id: number,
-    {
-      total,
-      template,
-      placeholder,
-    }: {
-      total: number;
-      template?: string;
-      placeholder?: PlaceholderConfig;
-    },
+    config: FrogressConfig,
   ) {
+    const completeConfig = getDefaultConfig(config);
+    const { value, total, placeholder, ...rest } = completeConfig;
+    this.value = value;
     this.total = total;
-    this.template = template;
-    this.placeholderConfig = placeholder;
+    this.placeholder = placeholder;
+    this.config = rest;
   }
 
-  start({ value, total, placeholder }: ProgressBarOptions): void {
+  start({ value, total, placeholder }: ProgressValues): void {
     this.update({ value, total, placeholder });
     this.active = true;
   }
@@ -48,7 +50,7 @@ export class ProgressBar {
     this.active = false;
   }
 
-  update({ value, total, placeholder }: ProgressBarOptions): void {
+  update({ value, total, placeholder }: ProgressValues): void {
     this.value = value;
 
     if (typeof total === 'number') {
@@ -56,8 +58,8 @@ export class ProgressBar {
     }
 
     if (typeof placeholder === 'object') {
-      this.placeholderConfig = {
-        ...this.placeholderConfig,
+      this.placeholder = {
+        ...this.placeholder,
         ...placeholder,
       };
     }
@@ -65,12 +67,12 @@ export class ProgressBar {
 
   getState(): ProgressBarState {
     return {
+      ...this.config,
       id: this.id,
       value: this.value,
       total: this.total,
       active: this.active,
-      template: this.template,
-      placeholderConfig: this.placeholderConfig,
+      placeholder: this.placeholder,
     };
   }
 }
