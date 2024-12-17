@@ -17,17 +17,18 @@ export class ProgressBar {
   private active = false;
   private value = 0;
   private total: number;
-  private placeholderConfig?: PlaceholderConfig;
-  private config: Required<Omit<FrogressConfig, 'value' | 'total'>>;
+  private placeholder?: PlaceholderConfig;
+  private config: Required<Omit<FrogressConfig, 'value' | 'total' | 'placeholder'>>;
 
   constructor(
     private id: number,
     config: FrogressConfig,
   ) {
     const completeConfig = getDefaultConfig(config);
-    const { value, total, ...rest } = completeConfig;
+    const { value, total, placeholder, ...rest } = completeConfig;
     this.value = value;
     this.total = total;
+    this.placeholder = placeholder;
     this.config = rest;
   }
 
@@ -48,8 +49,8 @@ export class ProgressBar {
     }
 
     if (typeof placeholder === 'object') {
-      this.placeholderConfig = {
-        ...this.placeholderConfig,
+      this.placeholder = {
+        ...this.placeholder,
         ...placeholder,
       };
     }
@@ -62,6 +63,7 @@ export class ProgressBar {
       value: this.value,
       total: this.total,
       active: this.active,
+      placeholder: this.placeholder,
     };
   }
 }
