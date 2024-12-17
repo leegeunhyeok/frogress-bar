@@ -154,8 +154,6 @@ const progressBar = Frogress.create(config);
 - `template`: [Template](#template) string. Defaults to `'{progress}'`.
 - `placeholder`: Key-Value data that replace of template's placeholders. Defaults to `{}`.
 
-### update
-
 ### remove
 
 Unmount & Remove specified `ProgressBar` from current context.
@@ -175,7 +173,7 @@ Unmount & Remove specified `ProgressBar` from current context.
 function remove(progressBar: ProgressBar): void;
 ```
 
-#### removeAll
+### removeAll
 
 Unmount & Remove all progress bars from current context.
 
@@ -215,7 +213,7 @@ function setOptions(options: ContainerOptions): void;
 
 - `refreshRate`: Defaults to `50`.
 
-#### ProgressBar.start
+### ProgressBar.start
 
 Render progress bar.
 
@@ -244,7 +242,7 @@ function start(values: ProgressValues): void;
 - `total`: total progress value.
 - `placeholder`: Key-Value data that replace of template's placeholders.
 
-#### ProgressBar.update
+### ProgressBar.update
 
 Set new states and re-render progress bar.
 
@@ -273,7 +271,7 @@ function update(values: ProgressValues): void;
 - `total`: total progress value.
 - `placeholder`: Key-Value data that replace of template's placeholders.
 
-#### ProgressBar.stop
+### ProgressBar.stop
 
 Unmount progress bar.
 
