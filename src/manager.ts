@@ -1,4 +1,3 @@
-/* eslint-disable no-param-reassign -- allow */
 import { createRef } from 'react';
 import { render, type Instance } from 'ink';
 import { ProgressState } from './progress-state';

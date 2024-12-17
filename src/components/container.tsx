@@ -12,6 +12,9 @@ export interface ContainerProps {
 }
 
 export interface ContainerOptions {
+  /**
+   * 
+   */
   refreshRate: number;
 }
 
