@@ -31,7 +31,9 @@ export function initialize(): FrogressManager {
     refreshRate: DEFAULT_REFRESH_RATE,
   };
 
-  function renderContainer(additionalProps?: Partial<ContainerProps & ContainerOptions>): void {
+  function renderContainer(
+    additionalProps?: Partial<ContainerProps & ContainerOptions>,
+  ): void {
     if (instance !== null) return;
 
     instance = render(
@@ -39,7 +41,9 @@ export function initialize(): FrogressManager {
     );
   }
 
-  function rerenderContainer(additionalProps?: Partial<ContainerProps & ContainerOptions>): void {
+  function rerenderContainer(
+    additionalProps?: Partial<ContainerProps & ContainerOptions>,
+  ): void {
     if (instance === null) return;
 
     instance.rerender(

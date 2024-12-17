@@ -28,6 +28,7 @@ module.exports = {
         'no-useless-escape': 'off',
         'prefer-named-capture-group': 'off',
         'import/no-named-as-default-member': 'off',
+        '@typescript-eslint/unified-signatures': 'off',
       },
     },
     {

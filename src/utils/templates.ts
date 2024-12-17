@@ -1,10 +1,11 @@
 import { INTERNAL_PLACEHOLDER_PROGRESS } from '../constants';
-import type { PlaceholderConfig, PlainText } from '../types';
+import type { Placeholder } from '../types';
+import { getColor } from './colors';
 
 type TemplatePlaceholder = `{${string}}`;
 
 interface TemplateToken {
-  text: PlainText;
+  text: string;
   placeholder: string | null;
   color?: string;
 }
@@ -38,19 +39,17 @@ export function parseTemplate(template: string): TemplateToken[] {
 
 export function applyPlaceholder(
   token: TemplateToken,
-  placeholderConfig: PlaceholderConfig,
+  placeholder: Placeholder,
 ): TemplateToken {
   if (token.placeholder === null) return token;
 
-  const config = placeholderConfig[token.placeholder];
+  const value = placeholder[token.placeholder];
 
-  if (config) {
-    if (typeof config === 'string') {
-      token.text = config;
-    } else if (typeof config === 'object') {
-      token.text = config.text ?? '';
-      token.color = config.color;
-    }
+  // console.log({token, placeholder});
+
+  if (value) {
+    token.text = value;
+    token.color = getColor(value);
   }
 
   return token;

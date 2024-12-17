@@ -1,4 +1,4 @@
-import type { FrogressConfig, PlaceholderConfig } from './types';
+import type { FrogressConfig, Placeholder } from './types';
 import type { ProgressBarProps } from './components/progress-bar';
 import { getDefaultConfig } from './utils/get-default-config';
 
@@ -19,15 +19,17 @@ interface ProgressValues {
   /**
    * Key-Value data that replace of template's placeholders.
    */
-  placeholder?: PlaceholderConfig;
+  placeholder?: Placeholder;
 }
 
 export class ProgressBar {
   private active = false;
   private value = 0;
   private total: number;
-  private placeholder?: PlaceholderConfig;
-  private config: Required<Omit<FrogressConfig, 'value' | 'total' | 'placeholder'>>;
+  private placeholder?: Placeholder;
+  private config: Required<
+    Omit<FrogressConfig, 'value' | 'total' | 'placeholder'>
+  >;
 
   constructor(
     private id: number,
