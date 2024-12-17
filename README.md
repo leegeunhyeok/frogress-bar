@@ -104,7 +104,7 @@ It can be called multiple times for multiple progress bars.
 - Return Value
   | Type |
   |:--|
-  | `Frogress` |
+  | `ProgressBar` |
 
 ```ts
 /* interfaces */
@@ -131,9 +131,16 @@ interface FrogressConfig {
    */
   inactiveChar?: string;
   /**
+   * Template string.
    *
+   * Defaults to `'{progress}'`.
    */
   template?: string;
+  /**
+   * Key-Value data that replace of template's placeholders.
+   *
+   * Defaults to `{}`.
+   */
   placeholder?: PlaceholderConfig;
 }
 

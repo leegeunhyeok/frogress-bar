@@ -21,7 +21,17 @@ export interface FrogressConfig {
    * Defaults to `'░'`.
    */
   inactiveChar?: ProgressBarProps['inactiveChar'];
+  /**
+   * Template string.
+   *
+   * Defaults to `'{progress}'`.
+   */
   template?: string;
+  /**
+   * Key-Value data that replace of template's placeholders.
+   *
+   * Defaults to `{}`.
+   */
   placeholder?: PlaceholderConfig;
 }
 
