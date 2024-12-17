@@ -13,7 +13,7 @@ const progressBar1 = Frogress.create({
   total: 100,
   template: 'Downloader {no} {progress} ({value}/{total}, {percentage})',
   placeholder: {
-    no: '#1',
+    no: Frogress.color('#1', 'gray'),
   },
 });
 
@@ -22,7 +22,7 @@ const progressBar2 = Frogress.create({
   total: 100,
   template: 'Downloader {no} {progress} ({value}/{total}, {percentage})',
   placeholder: {
-    no: '#2',
+    no: Frogress.color('#2', 'gray'),
   },
 });
 
@@ -31,7 +31,7 @@ const progressBar3 = Frogress.create({
   total: 100,
   template: 'Downloader {no} {progress} ({value}/{total}, {percentage})',
   placeholder: {
-    no: '#3',
+    no: Frogress.color('#3', 'gray'),
   },
 });
 
