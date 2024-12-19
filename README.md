@@ -195,6 +195,21 @@ Unmount & Remove all progress bars from current context.
 function removeAll(): void;
 ```
 
+### count
+
+Returns the current instance count of the progress bar.
+
+- Return Value
+  | Type |
+  |:--|
+  | `number` |
+
+```ts
+/* interfaces */
+
+function count(): number;
+```
+
 ### setOptions
 
 Applies the options to the Frogress container.

@@ -11,6 +11,7 @@ interface ProgressManager {
   create: (config?: ProgressConfig) => ProgressBar;
   remove: (progressBar: ProgressBar) => void;
   removeAll: () => void;
+  count: () => number;
   setOptions: (options: ContainerOptions) => void;
 }
 
@@ -90,6 +91,9 @@ export function initialize(): ProgressManager {
       unmountContainer();
 
       state.clear();
+    },
+    count: () => {
+      return state.size()
     },
     setOptions: (options) => {
       containerProps = { ...containerProps, ...options };
