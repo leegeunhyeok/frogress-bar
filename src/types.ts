@@ -1,6 +1,6 @@
 import type { ProgressBarProps } from './components/progress-bar';
 
-export interface FrogressConfig {
+export interface ProgressConfig {
   /**
    * Defaults to `0`.
    */

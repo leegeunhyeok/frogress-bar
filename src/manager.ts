@@ -1,20 +1,20 @@
 import { createRef } from 'react';
 import { render, type Instance } from 'ink';
 import { ProgressState } from './progress-state';
-import type { FrogressConfig } from './types';
+import type { ProgressConfig } from './types';
 import type { ContainerOptions, ContainerProps } from './components/container';
 import { ProgressBar } from './progress-bar';
 import { createContainerElement } from './utils/create-container';
 import { DEFAULT_REFRESH_RATE } from './constants';
 
-interface FrogressManager {
-  create: (config?: FrogressConfig) => ProgressBar;
+interface ProgressManager {
+  create: (config?: ProgressConfig) => ProgressBar;
   remove: (progressBar: ProgressBar) => void;
   removeAll: () => void;
   setOptions: (options: ContainerOptions) => void;
 }
 
-export function initialize(): FrogressManager {
+export function initialize(): ProgressManager {
   let id = 0;
   let instance: Instance | null = null;
 

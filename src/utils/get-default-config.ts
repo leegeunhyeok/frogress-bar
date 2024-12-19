@@ -6,11 +6,11 @@ import {
   DEFAULT_TOTAL_VALUE,
   DEFAULT_VALUE,
 } from '../constants';
-import type { FrogressConfig } from '../types';
+import type { ProgressConfig } from '../types';
 
 export function getDefaultConfig(
-  config: FrogressConfig,
-): Required<FrogressConfig> {
+  config: ProgressConfig,
+): Required<ProgressConfig> {
   return {
     value: config.value ?? DEFAULT_VALUE,
     total: config.total ?? DEFAULT_TOTAL_VALUE,

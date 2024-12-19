@@ -100,7 +100,7 @@ It can be called multiple times for multiple progress bars.
 - Parameters
   | Name | Type | Required |
   |:--|:--|:--|
-  | options | `FrogressConfig` | No |
+  | options | `ProgressConfig` | No |
 - Return Value
   | Type |
   |:--|
@@ -109,7 +109,7 @@ It can be called multiple times for multiple progress bars.
 ```ts
 /* interfaces */
 
-interface FrogressConfig {
+interface ProgressConfig {
   /**
    * Defaults to `0`.
    */
@@ -144,7 +144,7 @@ interface FrogressConfig {
   placeholder?: Record<string, string>;
 }
 
-function create(config?: FrogressConfig): ProgressBar;
+function create(config?: ProgressConfig): ProgressBar;
 ```
 
 ```ts
@@ -283,7 +283,7 @@ function update(values: ProgressValues): void;
 Unmount progress bar.
 
 > [!NOTE]  
-> If you want to exit the process, you should remove all of progress bars.
+> If you want to exit the process, you should remove all of progress bars using [remove()](#remove) or [removeAll()](#removeall)
 
 ```ts
 function stop(): void;
