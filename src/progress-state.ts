@@ -1,4 +1,4 @@
-import type { ProgressBar } from './progress-bar';
+import type { ProgressBar } from './progress-bar.js';
 
 export class ProgressState {
   private progressBars = new Set<ProgressBar>();

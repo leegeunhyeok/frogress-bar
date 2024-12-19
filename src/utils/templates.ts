@@ -1,6 +1,6 @@
-import { INTERNAL_PLACEHOLDER_PROGRESS } from '../constants';
-import type { Placeholder } from '../types';
-import { getColor } from './colors';
+import { INTERNAL_PLACEHOLDER_PROGRESS } from '../constants/index.js';
+import type { Placeholder } from '../types.js';
+import { getColor } from './colors.js';
 
 type TemplatePlaceholder = `{${string}}`;
 

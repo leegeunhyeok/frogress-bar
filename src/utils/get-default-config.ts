@@ -5,8 +5,8 @@ import {
   DEFAULT_TEMPLATE,
   DEFAULT_TOTAL_VALUE,
   DEFAULT_VALUE,
-} from '../constants';
-import type { ProgressConfig } from '../types';
+} from '../constants/index.js';
+import type { ProgressConfig } from '../types.js';
 
 export function getDefaultConfig(
   config: ProgressConfig,

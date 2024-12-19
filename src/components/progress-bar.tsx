@@ -1,14 +1,14 @@
 import React, { useMemo } from 'react';
 import { Text } from 'ink';
-import type { Placeholder } from '../types';
-import { useMaxWidth } from '../hooks/use-max-width';
+import type { Placeholder } from '../types.js';
+import { useMaxWidth } from '../hooks/use-max-width.js';
 import {
   parseTemplate,
   assertsIsValidTemplate,
   applyPlaceholder,
-} from '../utils/templates';
-import { getDefaultTemplate } from '../utils/get-default-template';
-import { DEFAULT_TEMPLATE } from '../constants';
+} from '../utils/templates.js';
+import { getDefaultTemplate } from '../utils/get-default-template.js';
+import { DEFAULT_TEMPLATE } from '../constants/index.js';
 
 export interface ProgressBarProps {
   value: number;

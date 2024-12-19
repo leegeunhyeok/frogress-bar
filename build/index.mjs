@@ -1,6 +1,6 @@
 import * as esbuild from 'esbuild';
 
-const commonOptions: esbuild.BuildOptions = {
+const commonOptions = {
   entryPoints: ['src/index.ts'],
   packages: 'external',
   bundle: true,
