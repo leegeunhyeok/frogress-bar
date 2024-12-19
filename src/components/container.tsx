@@ -1,10 +1,10 @@
 import React, { type RefObject } from 'react';
 import { Box } from 'ink';
-import { TerminalSizeProvider } from '../contexts/terminal-size';
-import { useRefAsState } from '../hooks/use-ref-as-state';
-import { useRefreshRate } from '../hooks/use-refresh-rate';
-import type { ProgressState } from '../progress-state';
-import { ProgressBar } from './progress-bar';
+import { TerminalSizeProvider } from '../contexts/terminal-size.js';
+import { useRefAsState } from '../hooks/use-ref-as-state.js';
+import { useRefreshRate } from '../hooks/use-refresh-rate.js';
+import type { ProgressState } from '../progress-state.js';
+import { ProgressBar } from './progress-bar.js';
 
 export interface ContainerProps {
   INTERNAL__stateRef: RefObject<ProgressState>;

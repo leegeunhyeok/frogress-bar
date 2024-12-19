@@ -1,6 +1,6 @@
-import type { ProgressConfig, Placeholder } from './types';
-import type { ProgressBarProps } from './components/progress-bar';
-import { getDefaultConfig } from './utils/get-default-config';
+import type { ProgressConfig, Placeholder } from './types.js';
+import type { ProgressBarProps } from './components/progress-bar.js';
+import { getDefaultConfig } from './utils/get-default-config.js';
 
 export interface ProgressBarState extends ProgressBarProps {
   id: number;

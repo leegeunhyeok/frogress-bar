@@ -1,11 +1,11 @@
 import { createRef } from 'react';
 import { render, type Instance } from 'ink';
-import { ProgressState } from './progress-state';
-import type { ProgressConfig } from './types';
-import type { ContainerOptions, ContainerProps } from './components/container';
-import { ProgressBar } from './progress-bar';
-import { createContainerElement } from './utils/create-container';
-import { DEFAULT_REFRESH_RATE } from './constants';
+import { ProgressState } from './progress-state.js';
+import type { ProgressConfig } from './types.js';
+import type { ContainerOptions, ContainerProps } from './components/container.js';
+import { ProgressBar } from './progress-bar.js';
+import { createContainerElement } from './utils/create-container.js';
+import { DEFAULT_REFRESH_RATE } from './constants/index.js';
 
 interface ProgressManager {
   create: (config?: ProgressConfig) => ProgressBar;

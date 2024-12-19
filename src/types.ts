@@ -1,4 +1,4 @@
-import type { ProgressBarProps } from './components/progress-bar';
+import type { ProgressBarProps } from './components/progress-bar.js';
 
 export interface ProgressConfig {
   /**

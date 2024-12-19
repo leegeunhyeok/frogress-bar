@@ -1,6 +1,6 @@
 import { useStdout } from 'ink';
 import { useContext, useLayoutEffect } from 'react';
-import { terminalSizeContext } from '../contexts/terminal-size';
+import { terminalSizeContext } from '../contexts/terminal-size.js';
 
 export function useTerminalSize(): number {
   const { stdout } = useStdout();

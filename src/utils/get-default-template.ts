@@ -3,9 +3,9 @@ import {
   INTERNAL_PLACEHOLDER_PROGRESS,
   INTERNAL_PLACEHOLDER_TOTAL,
   INTERNAL_PLACEHOLDER_VALUE,
-} from '../constants';
-import type { Placeholder } from '../types';
-import { isColorOnly, toColored, getColor } from './colors';
+} from '../constants/index.js';
+import type { Placeholder } from '../types.js';
+import { isColorOnly, toColored, getColor } from './colors.js';
 
 interface GetDefaultTemplateConfig {
   progress: string;

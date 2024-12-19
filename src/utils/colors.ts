@@ -1,4 +1,4 @@
-import { COLOR, COLOR_ONLY } from '../types';
+import { COLOR, COLOR_ONLY } from '../types.js';
 
 export function toColored(color: string): string;
 export function toColored(text: string, color: string): string;

@@ -3,7 +3,7 @@ import {
   Container,
   type ContainerOptions,
   type ContainerProps,
-} from '../components/container';
+} from '../components/container.js';
 
 export function createContainerElement(
   containerProps: ContainerProps & ContainerOptions,

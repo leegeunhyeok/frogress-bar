@@ -1,5 +1,5 @@
-import * as Frogress from '../src';
-import { dummyTask } from './__fixtures__/dummy-task';
+import * as Frogress from '../src/index.js';
+import { dummyTask } from './__fixtures__/dummy-task.js';
 
 // 1. Create progress bar
 const progressBar = Frogress.create({
