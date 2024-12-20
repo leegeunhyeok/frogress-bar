@@ -1,7 +1,7 @@
 import { COLOR, COLOR_ONLY } from '../types';
 
-export function toColored(color: string): string;
 export function toColored(text: string, color: string): string;
+export function toColored(color: string): string;
 export function toColored(arg0: string, arg1?: unknown): string {
   return typeof arg1 === 'undefined'
     ? Object.assign('', { [COLOR]: arg0, [COLOR_ONLY]: true })
