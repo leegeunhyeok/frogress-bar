@@ -68,29 +68,29 @@ export function initialize(): ProgressManager {
         placeholder,
       });
 
+      state.add(progressBar);
+
       if (needFirstRender) {
         renderContainer();
       } else {
         rerenderContainer();
       }
 
-      state.add(progressBar);
-
       return progressBar;
     },
     remove: (progressBar) => {
+      state.remove(progressBar);
+
       if (state.size() === 0) {
         unmountContainer();
       } else {
         rerenderContainer();
       }
-
-      state.remove(progressBar);
     },
     removeAll: () => {
-      unmountContainer();
-
       state.clear();
+
+      unmountContainer();
     },
     count: () => {
       return state.size()
