@@ -13,10 +13,6 @@
 .pnp.*
 
 node_modules
-
 dist
-cjs
-esm
-types
 
 .DS_Store

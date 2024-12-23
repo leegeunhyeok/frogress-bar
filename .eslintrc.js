@@ -32,10 +32,16 @@ module.exports = {
       },
     },
     {
-      files: ['demo/**/*.ts'],
+      files: ['demo/**/*.js'],
       rules: {
         'no-console': 'off',
         '@typescript-eslint/no-floating-promises': 'off',
+      },
+    },
+    {
+      files: ['tsup.config.ts'],
+      rules: {
+        'import/no-default-export': 'off',
       },
     },
   ],

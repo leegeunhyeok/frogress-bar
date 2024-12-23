@@ -1,11 +1,11 @@
-import * as Frogress from '../src';
-import { dummyTask } from './__fixtures__/dummy-task';
+import * as Frogress from '../../dist/index.mjs';
+import { dummyTask } from '../__fixtures__/dummy-task.mjs';
 
 const defaultConfig = {
   progressBarSize: 50,
   activeChar: '█',
   inactiveChar: '░',
-} as const;
+};
 
 // 1. Create progress bars
 const progressBar1 = Frogress.create({
@@ -40,8 +40,8 @@ progressBar1.start({ value: 0 });
 progressBar2.start({ value: 0 });
 progressBar3.start({ value: 0 });
 
-function getColorByPercent(percent: number): string {
-  let color: string;
+function getColorByPercent(percent) {
+  let color;
 
   if (percent >= 100) {
     color = '#2196F3';

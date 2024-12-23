@@ -1,7 +1,7 @@
-import { stdin } from 'node:process';
-import { emitKeypressEvents } from 'node:readline';
-import * as Frogress from '../src';
-import { dummyTask } from './__fixtures__/dummy-task';
+const { stdin } = require('node:process');
+const { emitKeypressEvents } = require('node:readline');
+const Frogress = require('../../dist/index');
+const { dummyTask } = require('../__fixtures__/dummy-task');
 
 // 1. Create progress bars
 const progressBar = Frogress.create({
@@ -12,10 +12,10 @@ const progressBar = Frogress.create({
   template: 'Bundle {progress} ({value}/{total} Modules, {percentage})',
 });
 
-let status: 'idle' | 'building' = 'idle';
+let status = 'idle';
 let attempt = 0;
 
-async function build(): Promise<void> {
+async function build() {
   if (status === 'building') {
     return;
   }
@@ -46,7 +46,7 @@ if (stdin.isTTY) {
 
   emitKeypressEvents(process.stdin);
 
-  stdin.on('keypress', (_: unknown, key: { name: string; ctrl: boolean }) => {
+  stdin.on('keypress', (_, key) => {
     if (key.ctrl) {
       if (key.name === 'c') {
         // 4. Remove all progress bars
