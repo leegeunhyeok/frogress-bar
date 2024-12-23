@@ -1,11 +1,11 @@
-import * as Frogress from '../src';
-import { dummyTask } from './__fixtures__/dummy-task';
+const Frogress = require('../../dist/index');
+const { dummyTask } = require('../__fixtures__/dummy-task');
 
 const defaultConfig = {
   progressBarSize: 50,
   activeChar: '█',
   inactiveChar: '░',
-} as const;
+};
 
 // 1. Create progress bars
 const progressBar1 = Frogress.create({

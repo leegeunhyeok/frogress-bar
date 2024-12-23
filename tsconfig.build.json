@@ -3,7 +3,9 @@
   "compilerOptions": {
     "declaration": true,
     "emitDeclarationOnly": true,
-    "outDir": "types"
+    "outDir": "types",
+    // 'use strict'; will be injected when build phase.
+    "strict": false
   },
   "include": ["src"]
 }

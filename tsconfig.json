@@ -3,5 +3,5 @@
   "compilerOptions": {
     "jsx": "react"
   },
-  "include": ["src", "build", "demo"]
+  "include": ["src", "build", "demo", "tsup.config.ts"]
 }

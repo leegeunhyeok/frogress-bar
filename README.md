@@ -64,7 +64,7 @@ Frogress.removeAll();
 
   <summary>Multiple progress bars</summary>
 
-[Demo](./demo/multiple-progress-bars.ts)
+[Demo](./demo/esm/multiple-progress-bars.mjs)
 
 ![multiple-progress-bars](./preview/multiple-progress-bars.gif)
 
@@ -74,7 +74,7 @@ Frogress.removeAll();
 
   <summary>Custom colored progress bars</summary>
 
-[Demo](./demo/custom-colors.ts)
+[Demo](./demo/esm/custom-colors.mjs)
 
 ![multiple-progress-bars](./preview/custom-colors.gif)
 
@@ -84,7 +84,7 @@ Frogress.removeAll();
 
   <summary>Re-use progress bar</summary>
 
-[Demo](./demo/reuse-progress-bar.ts)
+[Demo](./demo/esm/reuse-progress-bar.mjs)
 
 ![multiple-progress-bars](./preview/reuse-progress-bar.gif)
 

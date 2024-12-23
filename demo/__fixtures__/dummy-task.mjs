@@ -1,10 +1,6 @@
-interface DownloadConfig {
-  onProgress: (progress: number) => void;
-}
-
 const MAX = 100;
 
-export function dummyTask({ onProgress }: DownloadConfig): Promise<void> {
+export function dummyTask({ onProgress }) {
   let progress = 0;
 
   return new Promise((resolve) => {
